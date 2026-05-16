@@ -1,0 +1,9 @@
+# Never commit private keys — they only live in aidatacollect-vendor-keys.
+*.key
+*.pem
+*.age
+
+# Local scratch
+.DS_Store
+*.swp
+*.bak
