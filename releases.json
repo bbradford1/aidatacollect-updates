@@ -1,7 +1,7 @@
 {
   "releases": [
     {
-      "bundle_sha256": "sha256:3e270ee77cde970e253d4ce51f29d3e55740f2c0eddabd261756ad9db8d1c357",
+      "bundle_sha256": "sha256:edef52a020b57acd19e3219eea8b36a891e132806846c043aa81cd4bdd595422",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.1.0/release-v0.1.0.adcupdate",
       "channel": "stable",
       "compatible_with": {
@@ -13,7 +13,7 @@
       "packages_url": "builds/v0.1.0/packages.json",
       "release_delivery_days": 7,
       "release_notes_md": "",
-      "released_at": "2026-05-16T23:00:21Z",
+      "released_at": "2026-05-17T00:34:19Z",
       "version": "v0.1.0"
     }
   ],
