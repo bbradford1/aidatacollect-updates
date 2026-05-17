@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:43d3b9faa742dce13ab7a2a998823fd02d39be06cf0a87dd6ae66cf6f0ceeeb1",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.1.13/release-v0.1.13.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:d7241fcbadf5136d15c32fc4e389aab7fba7a94c6fee8acd3a1541ec7aa0034c",
+      "packages_sig_url": "builds/v0.1.13/packages.json.sig",
+      "packages_url": "builds/v0.1.13/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "## What's new\n\n- **Updates page reshuffle.** The Selected release card with its release notes is now the first thing you see, right under the catalog status hero. Less scrolling to find \"what would I be installing if I click Install all?\"\n\n- **Beta channel folded into Selected release.** The standalone Release channel card is gone \u2014 beta is now a small inline toggle at the bottom of the Selected release card (\"Channel: [beta + release / release only]\"). Same functionality, less screen real estate.\n\n- **Per-service digest table collapsed by default.** The Installed images table is now hidden behind a \"Show per-service digest details\" expander. Most operators don't need to see digests during a normal upgrade; expanding stays one click away for debugging and support cases.\n\n- **Release notes preview in the install confirm dialog.** When you click **Install all**, the confirmation now shows a \"What's in vX.Y.Z\" snippet of the release notes inside the dialog itself \u2014 so you can't accidentally install something without seeing at least the headline of what's changing. Full notes remain visible on the page above.\n\n- **Softer empty-state copy.** Per-service rows where the catalog has no matching entry (typically a known naming difference like `ingest-worker` vs `mqtt-ingest`) now render as `\u2014` with a tooltip instead of an alarming \"NO REMOTE INFO\" label.\n\n## Upgrade notes\n\nNo configuration changes. Purely a UI refresh \u2014 install/rollback/restore logic is unchanged from v0.1.12.\n\n<details>\n<summary>Technical changelog</summary>\n\n- **portal** `564b028` \u2014 SystemUpdatesPage reorders cards (Selected release first), folds the beta toggle into the Selected release card, wraps the Installed images table in `<details>` for collapse-by-default, softens \"NO REMOTE INFO\" with a tooltip. New `releaseNotesSnippet()` plain-text helper feeds the Install confirm modal's `details` slot with the first paragraph of `release_notes_md`. Selected release card now also handles the no-release-selected case so the inline beta toggle stays reachable.\n- No api / backend / schema changes.\n\n</details>\n",
+      "released_at": "2026-05-17T20:55:21Z",
+      "version": "v0.1.13"
+    },
+    {
       "bundle_sha256": "sha256:30c868fad1e9f15737d2f1370ac51917887f8e7a76ce4d566d3e45069e8612cf",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.1.12/release-v0.1.12.adcupdate",
       "channel": "stable",

@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:1a41af99f716ecdc44a6c102961ed4ea66061ca69489a7df0a5658cc7e1aa3e3",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.13",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:a7d03273e08f995411ff1f9abb907775e059de4225fa42c7c4d653a25b21f293",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.13",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:dd083fc5f3de671967431afff1f39367c2086561ea510150391bb2ccb6a2b63b",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.13",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:5ce19087c97ab53c26b08923fafd4886933bb197ff789f4a9540ecb6266bc071",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.13",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:ea48eccb1cebd3f359d407a27c055257ce5e1577b39867ca1e5e22f8a570153d",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.13",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## What's new\n\n- **Updates page reshuffle.** The Selected release card with its release notes is now the first thing you see, right under the catalog status hero. Less scrolling to find \"what would I be installing if I click Install all?\"\n\n- **Beta channel folded into Selected release.** The standalone Release channel card is gone \u2014 beta is now a small inline toggle at the bottom of the Selected release card (\"Channel: [beta + release / release only]\"). Same functionality, less screen real estate.\n\n- **Per-service digest table collapsed by default.** The Installed images table is now hidden behind a \"Show per-service digest details\" expander. Most operators don't need to see digests during a normal upgrade; expanding stays one click away for debugging and support cases.\n\n- **Release notes preview in the install confirm dialog.** When you click **Install all**, the confirmation now shows a \"What's in vX.Y.Z\" snippet of the release notes inside the dialog itself \u2014 so you can't accidentally install something without seeing at least the headline of what's changing. Full notes remain visible on the page above.\n\n- **Softer empty-state copy.** Per-service rows where the catalog has no matching entry (typically a known naming difference like `ingest-worker` vs `mqtt-ingest`) now render as `\u2014` with a tooltip instead of an alarming \"NO REMOTE INFO\" label.\n\n## Upgrade notes\n\nNo configuration changes. Purely a UI refresh \u2014 install/rollback/restore logic is unchanged from v0.1.12.\n\n<details>\n<summary>Technical changelog</summary>\n\n- **portal** `564b028` \u2014 SystemUpdatesPage reorders cards (Selected release first), folds the beta toggle into the Selected release card, wraps the Installed images table in `<details>` for collapse-by-default, softens \"NO REMOTE INFO\" with a tooltip. New `releaseNotesSnippet()` plain-text helper feeds the Install confirm modal's `details` slot with the first paragraph of `release_notes_md`. Selected release card now also handles the no-release-selected case so the inline beta toggle stays reachable.\n- No api / backend / schema changes.\n\n</details>\n",
+  "released_at": "2026-05-17T20:55:21Z",
+  "schema_version": 1,
+  "version": "v0.1.13"
+}
