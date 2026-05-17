@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:0427c38a11f23c9ff55471cc1a240093776a5f28925b0a797277357a11b6d951",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.12",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:1234c6933c3ea92ca0f003c900321ec04f638804876f8a31bca3f1d859b6a4ea",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.12",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:00440075dba2531629fd1b1ddacf749d222976f2991728f11771ff61f2824c3a",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.12",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:86d50dcf8d2d4163f746eef414a41fec661958a9fefc928bb72bcef124bfb9ca",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.12",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e2e8baa310692c44b681a514f062e13368729ce8bf6808c412a7ea59f7fc54d7",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.12",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## What's new\n\n- **Smoother install confirmation dialogs.** When you click **Install all**, **Roll back**, or other update actions, the confirmation now appears as a styled dialog that matches the rest of the portal instead of the browser's default popup. This works the same regardless of your browser's dialog settings, and looks better in dark mode and on mobile.\n\n- **Clearer per-action wording.** Each dialog now distinguishes between safe operations (regular install with backup) and riskier ones (skipping backup on stateful services, installing prerelease hotfixes) with color-coded buttons and an icon \u2014 warning amber for normal installs, danger red for actions that bypass safety nets.\n\n- **Keyboard-friendly.** Press **Esc** to cancel or **Enter** to confirm \u2014 same as before, just on a properly themed dialog.\n\n## Upgrade notes\n\nNo configuration changes. The change is purely how the confirmation dialogs render \u2014 the underlying install/rollback/restore logic is unchanged from v0.1.11.\n\n<details>\n<summary>Technical changelog</summary>\n\n- **portal** `0e3ef34` \u2014 New `<ConfirmModal>` + `<ConfirmProvider>` + `useConfirm()` hook (`src/components/shared/ConfirmModal.tsx`). Replaces 5 `window.confirm()` calls in `SystemUpdatesPage.tsx` with an awaitable styled modal supporting `warning`/`danger`/`neutral` variants, optional details panel, keyboard accessibility (Esc/Enter), and click-outside-to-cancel.\n- App root wraps routes in `<ConfirmProvider>` so any page can `useConfirm()` without per-page setup.\n- No api / backend / schema changes.\n\n</details>\n",
+  "released_at": "2026-05-17T20:28:17Z",
+  "schema_version": 1,
+  "version": "v0.1.12"
+}
