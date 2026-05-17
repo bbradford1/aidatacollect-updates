@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:65699b8def9aebdb56d581f1cb66300fddf42ab70cd9d70473212793352b0d14",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.7",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:0dc0646003c9c7abd3031b1f85b777dc2bccf7aca2b69ad944d4437c4c11e1a4",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.7",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:4d56064b1f5b3675cd3021714b43e3b7420b91efd99ef6b8ce049f3f8c3034b0",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.7",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:18ee4d31d9bf7e374ff67ea668ab91a464fa29afb78b5b87a2c152685ce21919",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.7",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:ce3ce07655b264b26e93c7f5f16eafcb27e7373cbeaa39af563897500da93e70",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.7",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "Companion catalog release for the v0.1.7 app tags. Triggers\npublish-update-catalog.yml to build the signed catalog + .adcupdate bundle.\n\n## Catastrophic fixes (v10.16-A class)\n- `scripts/update.sh` now honors the source-override compose file on the catalog path too (previously skipped only for catalog) and rewrites `.env`'s `IMAGE_TAG` to the installed `RELEASE_VERSION` before `record-versions.sh` runs. Without these two, every customer's first in-portal Install left `installed-versions.json` with `release_version: \"develop\"` and the catalog selector returned `no_compatible_release` on every subsequent check.\n\n## App-side companions (see per-repo releases)\n- api v0.1.7 \u2014 catalog `trigger_update` writes source-override + new_image; image-baked `/app/VERSION`; new `/system/updates-summary`.\n- portal v0.1.7 \u2014 sidebar update chip + dashboard toast; per-Card error boundary; post-wizard catalog refresh.\n- ingest / dbwriter / ftpingest v0.1.7 \u2014 no-op tag bumps for catalog coherence.\n\n## Lab verification (pending \u2014 operator-driven)\n1. Factory-reset 192.168.10.30.\n2. Install v0.1.6 first to mimic a paying-customer state.\n3. Click Install all.\n4. Confirm `installed-versions.json` ends with `release_version: \"v0.1.7\"`, next refresh returns `up_to_date`, and `/app/VERSION` inside adc-api reads `v0.1.7`.",
+  "released_at": "2026-05-17T14:23:23Z",
+  "schema_version": 1,
+  "version": "v0.1.7"
+}
