@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:bc2d15b726f6e95d9a8393da499f9d0e3c2dbaf671a8e571e403a1348e26266a",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.14",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:f6c6d2e08781fab2b8a9e4142178a20344e93db5dfdb214340b74b2280e1ba1d",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.14",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:6febc3d5a04457e4a1e2d9c1819a3569ee1aa80f5b5917a0fea442b34d5f9ba1",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.14",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e97004c48c4eeb16b1e31de3a4e77a9affdbd5283aa78dd0e880007d5442d2cc",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.14",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:61a191ee7cd4aa2c54107aff36a1ac1189318cde4d956cad6d7fa8e6d18f2042",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.14",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "# v0.1.14 \u2014 Release notes, everywhere\n\nRelease notes are now reachable across every install path: the public catalog, password-gated specific builds, and air-gap `.adcupdate` uploads. Plus a small status-banner polish on the Updates page.\n\n## What's new\n\n- **Air-gap bundles now ship `RELEASE_NOTES.txt`.** The `.adcupdate` tarball includes a plain-text copy of the release notes at the root. Operators can preview before install with `tar -xzf release-vX.Y.Z.adcupdate RELEASE_NOTES.txt`. The file is covered by `SHA256SUMS` so a tampered copy is rejected at validate time.\n- **Portal previews notes when installing from a file.** Pick an `.adcupdate` bundle from System \u2192 Updates \u2192 Install from file and the portal will show the bundled release notes inside the install confirm dialog \u2014 so you know what's in the build before you commit.\n- **Download release notes as `.txt`.** A new \"Release notes (.txt)\" link in the Selected release card saves the notes for the currently-selected catalog release as `aidatacollect-vX.Y.Z-release-notes.txt`. The `.txt` extension (not `.md`) is deliberate so Windows hosts open the file cleanly in Notepad without extra tooling.\n- **Status banner polish.** The single X icon at the top of the Update status banner is replaced with labeled **Refresh** + **Dismiss** buttons at the bottom-right. Refresh re-checks the manifest and update status (clears a banner that's no longer current); Dismiss explicitly clears terminal status. The banner is also pinned to full width so it sits flush with the strip above it and every card below.\n\n## Compatibility\n\n- Older bundles without `RELEASE_NOTES.txt` still validate and install \u2014 the bundle gains the file from v0.1.14 onward.\n- The legacy single-shot upload-and-install behaviour is preserved on the api (`preview` defaults to `false`). The portal now uses the two-step flow exclusively.\n\n## Migration\n\nNone \u2014 drop-in update from v0.1.13. Stateful services (TimescaleDB, EMQX, Redis, SFTPGo, PgBouncer, sftp-server) are unchanged in this release; the optional pre-update backup gate still fires for any stateful target.\n",
+  "released_at": "2026-05-17T21:27:59Z",
+  "schema_version": 1,
+  "version": "v0.1.14"
+}
