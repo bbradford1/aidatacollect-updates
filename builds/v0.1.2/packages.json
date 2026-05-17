@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:8c5bcee2e923bc573122b62f179409cdd8f981f7d806cef1ecee521e7cd8e71d",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:ef51cd3095ff2d9d836dba18ae908cb34630768c2db946e4a0fcd3f43910e6dd",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e783f21fabde315b95220383de7c26ff2d41cde6d5141489dfa2b12dcec07cc0",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:5d40e39d486b86ed780dbfd53b5f77e55295e7a3db1f3e653d4bdd0c41ff561d",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:ae960379b5a1028eaa834a991d1dd88683f0d92f4ee6dbf30d06011786a6136d",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "v0.1.2 hotfix release. Critical schema-init race fix plus 4 other install-path bugs caught in v0.1.1 lab smoke.\n\n**Fixes:**\n- **(#16, CRITICAL)** `aidatacollect-api`: schema-init race. Two uvicorn workers concurrently called `create_hypertable`, colliding on `pg_type_typname_nsp_index` and leaving the schema half-applied (missing tables: sites, zone_display_names; missing column: mqtt_transport). Fix: serialize `_run_migrations` with `pg_try_advisory_xact_lock` + eager base-table creates + per-statement SAVEPOINTs.\n- **(#17)** install-history.json chmod 0644 \u2192 0666 so the api container can write the trial anti-cheat anchor on /setup/finalize.\n- **(#13)** first-run.sh writes /etc/sysctl.d/99-aidatacollect-reserved-ports.conf reserving SFTPGo passive 60000-60010 from the kernel ephemeral pool (32768-60999) so `docker compose up` never races a transient ephemeral source port.\n- **(#14)** install.sh + first-run.sh recovery panels print copy-pastable absolute paths + remind about `newgrp docker`.\n- **(#15)** first-run.sh auto re-execs under `sg docker -c` when the user is in the docker group but the shell session predates the group add.\n\nRequired for any v0.1.0 / v0.1.1 install. Catalog rebuild fires on this release; new .adcupdate bundle published as a release asset.",
+  "released_at": "2026-05-17T03:56:13Z",
+  "schema_version": 1,
+  "version": "v0.1.2"
+}
