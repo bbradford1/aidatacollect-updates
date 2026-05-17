@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:09bac7651be50f02892e926bfb6688c8e2a41178a93b136e5aaef7b5591f7c7a",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.5",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:726451430e18603c790304c65cb15f3f6506e99064aab235958b01f499f0274e",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.5",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:f0315aa1e2e785e7181a784e299b29e16ff522311f58c3b8850db3a91b0aea5b",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.5",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:3d52f16e98762d945054a58546cc8246325ed32b4d98dc2c9536f1c955f45987",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.5",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:def663c0e2f5d336e3fa030ca0552edf3836187986c62aafdc24015fe69a6f3a",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.5",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "v0.1.5 ships an api schema-init hotfix + a Dashboard polish revert.\n\n**api `028871a` develop** \u2014 closes three classes of fresh-install errors:\n- **#20** `camera_credentials` hoisted from `discovery.py:ensure_credentials_table()` into `_run_migrations()`. Heartbeat + cdp_v2_reprobe JOIN this table on first tick (10s post-startup); previously errored UndefinedTableError until the first `/discovery/credentials` request landed.\n- **#18** `cameras.trashed_at` (+ `cred_id`, `config_status`) hoisted from `cameras.py:ensure_cameras_table()` into `_run_migrations()`. Rollup services (occupancy/dwell/queue/vault_access/atm_loiter) filter `WHERE c.trashed_at IS NULL` on first tick; previously errored UndefinedColumnError until first `/cameras` request.\n- **#19** `system_id` mint switched to atomic `O_CREAT|O_EXCL` \u2014 closes a cross-worker race that logged false-alarm ERROR on every first boot.\n\nAlso adds INFO start/end logging in `_run_migrations()` and a unit test guarding the hoisted DDL.\n\n**portal `52a846d` develop** \u2014 temporary removal of the Dashboard Updates tile pending a coherence fix between dashboard cached `/system/version` and Updates page fresh `remote_catalog` state (Bug #8).\n\n**ingest / dbwriter / ftpingest** \u2014 no-op tag bumps to keep the stack catalog in lockstep.\n\nRecommended for every v0.1.3 install. Same compatibility envelope (`from: v0.1.0`).",
+  "released_at": "2026-05-17T11:40:58Z",
+  "schema_version": 1,
+  "version": "v0.1.5"
+}
