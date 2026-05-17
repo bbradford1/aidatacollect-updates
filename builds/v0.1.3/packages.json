@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:2826909f48f92cd1acc2f2c1b9d67dea1066eb2dd9d207883869bfee1e89662e",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.3",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:5d7a416f1e7cbab8cec57451e8d814ed00b84d72517526b42bc9f2ed5b8adf50",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.3",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:aeb8a8c5b7128fb43eb6c3a046c41039a6d37f58b7220523b4b43c5d907309f9",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.3",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:6eda385c67862b7e8048e49eb592664fc75321a6c9b66f3154f5ca4ae7f9965e",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.3",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:f568c5cce0715d9516abeb59590937524cefc8bdbdd7304c5014e57373a76d7b",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.3",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "v0.1.3 closes the v0.1.2 transient race window.\n\nv0.1.2 used `pg_try_advisory_xact_lock` + early return for the migration loser worker, but that loser then started its background services BEFORE the winner's migration transaction committed \u2014 producing a ~5s window of transient `UndefinedTable` errors in service logs + a single HTTP 500 on the first dashboard load.\n\n**Fix (api `d330fbf` develop)**: switch to blocking `pg_advisory_xact_lock`. Loser waits for winner's COMMIT (which releases the xact-lock) before proceeding. By the time it starts services, schema is committed and visible. No more transient first-tick window.\n\nOther repos in this release are no-op tag bumps. Recommended for any v0.1.2 fresh install that observed transient errors at boot. Same compatibility envelope as v0.1.2 (`from: v0.1.0`).",
+  "released_at": "2026-05-17T04:18:27Z",
+  "schema_version": 1,
+  "version": "v0.1.3"
+}
