@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:63d34f9a1384c99f8aebc569a3682ed443461b66ab8020659070645cbb7ae481",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.15",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:df4d4306e52a2bf1f182f925858094d845662aa1259f49928ad63402d2a6f5e7",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.15",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:fc70a05f73da65f683b52ed210dd1155379dba6b603ec54a307657259efffad8",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.15",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:efdcccb81406311bdf3bbe62c96a44c7a19a7f9a2d8898c71f1e2f8e18254997",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.15",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:70671c31ea0c89eca881fbdc5a115c23b6f5cc54d456db7b9064f62da42b4233",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.15",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "# v0.1.15 \u2014 Cosmetic hotfix: drop duplicate \"v\" prefix on Updates page\n\nTiny hotfix for a UI typo. The Selected release card title and several install confirm dialogs on System \u2192 Updates were rendering `vv0.1.13` (two `v`s) because the version string already includes the `v` prefix from the catalog. v0.1.15 strips the duplicate.\n\n## Affected text\n\n- Selected release card title (`Selected release \u00b7 v0.1.15`)\n- Install confirm modal title (`Install v0.1.15?` / `Install v0.1.15 from file?`)\n- \"What's in v0.1.15\" details panel inside the install confirm\n- Hotfix / air-gap / catalog install success messages\n- Downloaded release-notes filename (`aidatacollect-v0.1.15-release-notes.txt`)\n\nNo backend changes \u2014 portal-only.\n",
+  "released_at": "2026-05-17T21:49:39Z",
+  "schema_version": 1,
+  "version": "v0.1.15"
+}
