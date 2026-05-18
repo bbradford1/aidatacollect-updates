@@ -83,8 +83,8 @@
     }
   ],
   "release_delivery_days": 7,
-  "release_notes_md": "",
-  "released_at": "2026-05-18T12:38:15Z",
+  "release_notes_md": "## What's in v0.1.19\n\nThis is a polish release that closes the four follow-ups from the\nv0.1.18 lab pass. No schema changes, no migrations \u2014 image swap only.\n\n### Bug fixes\n\n- **Rollback now keeps state files in sync.** After clicking \"Roll back\n  last update\", the recorded version (shown in the sidebar and on the\n  Updates page) used to keep claiming the *post-update* version even\n  though the *pre-update* images were restored. The portal will now\n  report the version that's actually running.\n\n- **Air-gap install progress no longer overshoots.** During an install\n  from a `.adcupdate` bundle, the progress counter occasionally flashed\n  a higher current value than total (e.g. \"8 / 4\") for one tick before\n  settling. The counter now tracks the number of image tars in the\n  bundle for the load phase, and the per-updated-service count for the\n  pull / recreate phases.\n\n### UX polish\n\n- **Sidebar \"update available\" chip auto-clears after install.** When\n  an install reaches Complete, the chip and Dashboard tile now refresh\n  themselves within a few seconds \u2014 no more manual Refresh click on\n  the Updates page just to clear a stale notification.\n\n- **Upload-progress line clears when the confirm modal opens.** After\n  uploading a `.adcupdate` file, the \"Uploading \u2026 100%\" status line\n  used to linger behind the install-confirmation dialog. It now goes\n  away as soon as the upload finishes, leaving a clean confirm view.\n\n### Upgrade notes\n\n- Existing installs running v0.1.18 (or earlier) can upgrade in place\n  via the Updates page.\n- No backup is required: this release does not touch stateful services\n  (database, MQTT broker, Redis, SFTP). The standard image swap is\n  reversible via the \"Roll back last update\" button if needed.",
+  "released_at": "2026-05-18T12:43:49Z",
   "schema_version": 1,
   "version": "v0.1.19"
 }
