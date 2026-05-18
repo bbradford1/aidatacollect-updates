@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:98bcc00e1830804b2976de2ffe48010a6c8aa0622b8f7bbfa3c154159e155401",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.20",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:d0f1dd0b62085cb1c4567f9091fb713d5c9ae07bbdaea3d7ec8dae555fc61013",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.20",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:b633091bd2bec9a1ceecf37a79a7a3849d42a36fd31600a3e6ce95547867fb6c",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.20",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:689459a47aeb4a74113fef0fa76519cea1167b8d61e0de154800299b4fef6b0f",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.20",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:ca59e171a286b4cc6a4d449c4c4681de0effcc6c3adc1a667ebb929e596d8e9e",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.20",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "# v0.1.20\n\n## What's new\n\n### Closed Network First\nFor sites running on a closed network (no outbound internet), the system now detects that automatically and adapts the Updates page so it doesn't spam you with \"couldn't reach the update server\" errors. You'll see a dedicated **Closed Network** banner with a clear path to install updates from a `.adcupdate` file.\n\n- **Auto-detection** \u2014 after 3 consecutive network errors fetching the update catalog, the system flips to closed-network mode. It flips back automatically once the catalog is reachable again.\n- **Operator pin** \u2014 if you want to lock the mode regardless of network conditions (for demo, air-gap, or a transient outage), the new pin row on the Updates page lets you set Auto / Connected / Closed explicitly.\n- **Closed-network hero** shows your running version and a button to install from file.\n\n### Updates page polish\nA round of cleanup based on running it day-to-day:\n\n- **Install from file** is now its own card near the top, so it's easy to find whether or not you're on a closed network.\n- The up-to-date hero now reads \"**You're on the latest version \u00b7 vX.Y.Z**\" \u2014 affirmative and clear.\n- A new **Release notes** button on both connected and closed-network heroes jumps you to the full notes for the next release, even when an update is already pending.\n- The **Install all** confirm modal now shows the full release notes (not just a snippet), so you can review what's changing before clicking Install.\n- \"Specific build (hotfix)\" \u2014 the password-gated path for vendor-issued hotfixes \u2014 has been simplified to a single-column layout.\n\n## Upgrading\n- **Connected sites** \u2014 visit Settings \u2192 System \u2192 Updates, click \"Install all\".\n- **Closed-network sites** \u2014 download the `.adcupdate` bundle from the release asset below and upload it via Install from file on the Updates page.\n\nIf you're currently running v0.1.18 or older, the upgrade path goes through v0.1.20 directly \u2014 no intermediate hops required.\n",
+  "released_at": "2026-05-18T15:16:27Z",
+  "schema_version": 1,
+  "version": "v0.1.20"
+}

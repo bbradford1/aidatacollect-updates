@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:97e5864dcff56513ee01406098d29a4468109257fc4f4dfcf2711444c5afa0ea",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.1.20/release-v0.1.20.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:2d99710e5e876a13902d9dec97e15d8426d1e8f599e3d0d92f75f11092d8f9c4",
+      "packages_sig_url": "builds/v0.1.20/packages.json.sig",
+      "packages_url": "builds/v0.1.20/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "# v0.1.20\n\n## What's new\n\n### Closed Network First\nFor sites running on a closed network (no outbound internet), the system now detects that automatically and adapts the Updates page so it doesn't spam you with \"couldn't reach the update server\" errors. You'll see a dedicated **Closed Network** banner with a clear path to install updates from a `.adcupdate` file.\n\n- **Auto-detection** \u2014 after 3 consecutive network errors fetching the update catalog, the system flips to closed-network mode. It flips back automatically once the catalog is reachable again.\n- **Operator pin** \u2014 if you want to lock the mode regardless of network conditions (for demo, air-gap, or a transient outage), the new pin row on the Updates page lets you set Auto / Connected / Closed explicitly.\n- **Closed-network hero** shows your running version and a button to install from file.\n\n### Updates page polish\nA round of cleanup based on running it day-to-day:\n\n- **Install from file** is now its own card near the top, so it's easy to find whether or not you're on a closed network.\n- The up-to-date hero now reads \"**You're on the latest version \u00b7 vX.Y.Z**\" \u2014 affirmative and clear.\n- A new **Release notes** button on both connected and closed-network heroes jumps you to the full notes for the next release, even when an update is already pending.\n- The **Install all** confirm modal now shows the full release notes (not just a snippet), so you can review what's changing before clicking Install.\n- \"Specific build (hotfix)\" \u2014 the password-gated path for vendor-issued hotfixes \u2014 has been simplified to a single-column layout.\n\n## Upgrading\n- **Connected sites** \u2014 visit Settings \u2192 System \u2192 Updates, click \"Install all\".\n- **Closed-network sites** \u2014 download the `.adcupdate` bundle from the release asset below and upload it via Install from file on the Updates page.\n\nIf you're currently running v0.1.18 or older, the upgrade path goes through v0.1.20 directly \u2014 no intermediate hops required.\n",
+      "released_at": "2026-05-18T15:16:27Z",
+      "version": "v0.1.20"
+    },
+    {
       "bundle_sha256": "sha256:7281c692e972a7a6232234329bffd0fc91769daceb5292f4923f059306cd7eba",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.1.19/release-v0.1.19.adcupdate",
       "channel": "stable",
