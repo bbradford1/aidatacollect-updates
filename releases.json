@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:66bca98260c3ac296664dffa66543f867f51c575a6297d1dc46fb12d4db771b3",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.1.18/release-v0.1.18.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:dc42c7a114cf83ba73e08f32d73e95b0f016dbdb81629967fc66e805143896f6",
+      "packages_sig_url": "builds/v0.1.18/packages.json.sig",
+      "packages_url": "builds/v0.1.18/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "",
+      "released_at": "2026-05-18T01:07:58Z",
+      "version": "v0.1.18"
+    },
+    {
       "bundle_sha256": "sha256:ff8f1c9609fc9fdff244d178d6fd838ffc9554c02556fcbd767a32aed5b144b9",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.1.17/release-v0.1.17.adcupdate",
       "channel": "stable",
