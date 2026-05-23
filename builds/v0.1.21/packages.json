@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:f45327551dc593712c455159186aa6572ba6b4d7be85f849b0f5af044db36c8a",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.21",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:b85fb83b3619f5ae1147333ea54ac284ea3a7866c4cc89ba3d6769199423d907",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.21",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:46b264142c908dbc6a73aa7d6bcd142d81ede99010862985030a40511b1719d9",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.21",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:874b1792abf3d63f8d1e6e250e897dbb51a8c2f17733d16a8e32fc7277a7161b",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.21",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:aa5506e67b515be9a054d725211e328feff671561a0ee891194149220cf6cbfc",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.21",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "# v0.1.21\n\n## What's new\n\n### Camera enrollment reliability (the big one)\nTwo longstanding bugs were causing the wizard to show **MQTT \u2014 not connected** and **SFTP \u2014 test failed** even when the camera was actually delivering data fine. Both are fixed:\n\n- **MQTT status badge** now reads the camera's actual connection state. Previously the parser was looking at the wrong field name and silently treating every camera as \"configured but not connected\" regardless of what the camera reported. Wizards on newer Hanwha firmware (W9 family, e.g. XNV-A9084R) will now flip to a green dot the moment the camera connects.\n- **SFTP probe poll window** was too tight (10s ceiling) and would call a slower camera as \"not connected\" even when the report upload was about to succeed a second later. Bumped to 18s so a slower-network camera still gets caught.\n\nIf you previously saw yellow/red dots on the last wizard step that didn't match reality, re-enroll the affected camera after upgrading and the badges should match what the camera is actually doing.\n\n### Reports delivery now works on fresh installs\nOn a brand-new install, the SFTP server's user table was empty, so the first time a camera tried to deliver a report it would silently fail with \"user not found.\" Reports would never arrive and nothing in the UI explained why. `first-run.sh` now provisions the camera user during install. Re-running `first-run.sh` is idempotent \u2014 it'll refresh the password rather than error out.\n\nThis affects new installs only. Existing sites where reports are already flowing are unaffected.\n\n### Licensing\n- **Identity_unreadable band** \u2014 when the license server can't read the host's stable identity (a transient OS issue, mid-update, etc.), the system now surfaces that explicitly in the License page instead of falling back to a generic \"verification failed\" message. Operators can tell at a glance whether the issue is the license itself or a host-side identity readback.\n- **Capacity check fails closed** on a DB error. Previously a transient query failure would let enrollment slip through. Now it errs on the safe side and refuses enrollment until the DB is reachable again.\n- **\"Signed by\" label** in the License page is now clearer that it refers to the advisory envelope, not the verified key \u2014 a small but important distinction when troubleshooting a license that's correctly signed but not yet trusted.\n- **Fingerprint computed at most once per minute** under heavy reverify load \u2014 eliminates redundant kernel reads during every-tick license checks.\n\n## Upgrading\n- **Connected sites** \u2014 Settings \u2192 System \u2192 Updates \u2192 Install all.\n- **Closed-network sites** \u2014 download the `.adcupdate` bundle below and use Install from file.\n\nComing from v0.1.18 or earlier? Upgrade goes straight to v0.1.21 \u2014 no intermediate hops needed.\n",
+  "released_at": "2026-05-23T11:02:59Z",
+  "schema_version": 1,
+  "version": "v0.1.21"
+}
