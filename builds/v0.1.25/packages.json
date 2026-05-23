@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:2f98b5fc00cdeeb14a40c3744ea7be9619152749ed7b1ccb48d883bda5278cd8",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.25",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:35de55f2d0483ebd288978bf36cbf4ad17863c246a4603d62790dff415249ec2",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.25",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:6a9a70526f34b72bb7f9218cd80b3807d353e6840e5b4aed235249c2c2bc7643",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.25",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:adeacbc588472f843f959240730be9aa75e4325ccec25462bc5720709e261842",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.25",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:9579fef70e3b68b677678ffbf968fa18dc94953069f0d41028d9350343d207ca",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.25",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.1.25 \u2014 audit-trail completeness for camera lifecycle\n\n### Camera lifecycle now writes audit rows at every transition\n\nThe audit log was missing two of the four lifecycle events and\nmis-attributing a third:\n\n- **Enrollment** (`POST /api/v1/devices/`) wrote `cameras` and\n  `camera_credentials` rows but no audit row, so compliance reviews\n  had to infer \"who enrolled this camera\" from the `cameras` row's\n  `registered_at` alone \u2014 with no operator attribution.\n- **Restore from trash** wrote an audit row, but hardcoded\n  `actor_username=\"system\"` even though restore is an operator\n  action gated by `manage_devices` permission. A malicious or\n  accidental restore looked like a background event.\n- **24-hour auto-purge sweep** (`HealthService._purge_trashed_cameras`)\n  silently hard-DELETEd rows once the restore window expired, so\n  the audit trail terminated at `camera_deleted` and never recorded\n  the row leaving the table.\n\nv0.1.25 fixes all three. The camera lifecycle now reads cleanly\nend-to-end in the audit log:\n\n| Stage | Action | Actor |\n|-------|--------|-------|\n| Wizard enroll | `camera_registered` (new) | operator |\n| Portal soft-delete | `camera_deleted` | operator |\n| Portal restore | `camera_restored` | operator (was \"system\") |\n| 24h+ auto-purge | `camera_auto_purged` (new) | system (correctly \u2014 no operator) |\n\nDetail JSON on each row carries the relevant context \u2014 `friendly_name`,\n`ip_address`, `manufacturer`, `model`, the symmetric teardown summary\non delete, the re-enable summary on restore, the `trashed_at` delta\non auto-purge. Sufficient for compliance review without joining other\ntables.\n\n### First-run.sh: clean up `/var/lib/aidatacollect/{backups,snapshots}` ownership\n\nCosmetic follow-on to the v0.1.23 Bug E parent-dir chown. The\n`backups` and `snapshots` subdirectories used to land as root:root\n0777 because docker auto-creates bind-mount targets with that\ndefault. Worked because 0777 made them world-writable, but the\nownership mismatch was ugly and the same trap-class that bit\nSFTPGo home_dir (Bug B) and the api state dir (Bug E). first-run.sh\nnow pre-creates both subdirs with 1001:1001 and 0755, matching the\nparent. Fresh-install only \u2014 existing installs are unaffected (and\nalready work because of the 0777 mode that's still in place there).\n\n### Upgrade notes\n\n- Image swap only \u2014 no schema migrations, no manual steps.\n- New audit actions show up immediately on the first enroll / restore\n  / purge after the update. Existing audit rows are unchanged.\n- The first-run.sh chown change runs only on fresh installs; existing\n  deployments do not need to do anything.\n- No customer-visible behavior change beyond richer audit trails.\n",
+  "released_at": "2026-05-23T15:23:24Z",
+  "schema_version": 1,
+  "version": "v0.1.25"
+}
