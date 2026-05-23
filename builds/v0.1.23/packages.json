@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:5e6bed9735331250f6d327f4e1f6a9354c009b652d03af334520a2774df79587",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.23",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:4f049c4760f73626e48bf9ba0b8e0ee9ddde584c8fa203ac293ff4fb783ade4d",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.23",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:360787c1ba1a0ee2bb01609558b5830fed95748b843eeddbfce6b697cd305974",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.23",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:0e802efc865d3da71c1707f84229abb59e60283f379aff76f22ca4cbff3b8e3b",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.23",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:f9215e13f2cbe0c2a6f50315b98735552ae5e73d517ccf83ce43025b16f53be8",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.23",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.1.23 \u2014 quality + reliability pass\n\n### Camera enrollment is more forgiving\n\nHanwha cameras occasionally wedged during enrollment when the\nconfigure step fired its ~30 SUNAPI calls back-to-back (the camera's\nweb UI also stopped responding for a minute or two). The cdp_v2\nclient now paces requests with a small inter-call delay and\nauto-retries once on transient network errors. End result: enrollments\nthat previously needed two attempts now usually succeed first time.\n\n### \"Backup before update\" now works for app-only updates\n\nPre-v0.1.23 the toggle was only shown when a stateful service\n(TimescaleDB / EMQX / Redis / SFTPGo) was in the diff. App-only\nupdates silently skipped the backup even with the box ticked. Now the\ncheckbox is shown for any installable update, and ticking it runs\n`backup.sh` synchronously before the first image pull \u2014 useful when\na release ships a schema migration that needs a clean rollback path.\n\n### No more PermissionError WARNINGs at adc-api startup\n\nFresh installs were writing this on first boot:\n\n```\nWARNING api.services.system_updates: could not persist manifest: PermissionError\nWARNING api.services.network_mode: sidecar write failed (PermissionError); skipping\n```\n\nThe api process falls back to in-memory state when its sidecar files\ncan't be written, so the warnings were cosmetic \u2014 but they meant the\nUpdates page and Closed-Network heuristic both lost their state across\napi restarts. `first-run.sh` now pre-creates\n`/var/lib/aidatacollect/` with the right ownership before the api\ncontainer starts.\n\n### Driver Packs admin page removed\n\nThe page (Settings \u2192 Driver Packs) had been decorative since the\ncdp_v2 facelift \u2014 uploading .cdp files no longer affected enrollment.\nThe page and its admin endpoints are removed; the service endpoints\nthat the ingest worker depends on stay in place. No customer action\nneeded.\n\n### Under the hood\n\n- ~1000 lines of dead post-cdp_v2-facelift code removed across api +\n  portal.\n- Migration audit verified the v0.1.6\u2192v0.1.22 hop is schema-clean \u2014\n  api `_run_migrations()` was not touched in that range.\n\n### Upgrade notes\n\n- Image swap only \u2014 no schema migrations, no manual steps.\n- Cameras already enrolled keep working as-is. Re-enrollment is not\n  required.\n- If you've been ignoring PermissionError WARNINGs in adc-api logs,\n  they'll go away after this update.\n",
+  "released_at": "2026-05-23T14:01:45Z",
+  "schema_version": 1,
+  "version": "v0.1.23"
+}
