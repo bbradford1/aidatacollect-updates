@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:05939c2df30fc45104648e7a87067545f5adbfdd245d1e5582c442bde3529475",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.22",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:2deffaf6255d22458e7158a87f2a6cc2a5bfaca1845a09e8077c1f8907fc6c42",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.22",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:ac8a98c3e9dccf95a94ef477886d15f695f269fc925dcef4a54a286f9ff2cf27",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.22",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:f40ef41632c68bb15561a53ca5786f3a63f2735d1516a617cc6698903f7f8fe6",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.22",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:29f28c04030e9a6bd9b02e2e5af648eb78af32d7bae07216230773c958ed2335",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.22",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "# v0.1.22\n\nHotfix release. If you ran into \"MQTT not connected\" or \"SFTP test failed\" on the last step of the camera enrollment wizard \u2014 especially on a fresh install or after a factory reset \u2014 this is the release you want.\n\n## What's fixed\n\n### Camera enrollment now actually completes on first attempt\n\nThree install-path bugs that turned a clean install into a multi-step manual recovery on v0.1.21:\n\n- **SFTP \"permission denied\"** \u2014 `first-run.sh` provisioned the SFTPGo `camera` user (added in v0.1.21) but the home directory was created by a sibling service running as root, so SFTPGo itself couldn't write files into it. Install-time chown is now wired in; camera report uploads land on the first try.\n- **MQTT silent TLS failure on re-installs** \u2014 the camera trust store check was matching certs by name only. Customers re-installing the stack onto an existing camera (which still had the prior install's CA cert) silently kept the old cert and TLS handshake failed against the new broker. Now the install computes a thumbprint and replaces a stale CA cleanly when names collide.\n- **Inline-entered camera credentials weren't being saved** \u2014 operators who typed `admin` / password into the wizard rather than picking a stored credential ended up with a camera row in the DB that had no credential link. The wizard's MQTT/SFTP disable on delete then silently skipped because there were no credentials to authenticate to the camera with. Credentials entered inline are now persisted automatically.\n\n### Camera-side cleanup when you remove a camera from the portal\n\nRemoving a camera from the portal now does a proper symmetric teardown on the camera itself:\n\n1. Disables the camera's MQTT client (stops it talking to the broker)\n2. Disables the four daily SFTP report uploads\n3. Re-binds the MQTT TLS cert reference to the camera's default root cert\n4. Removes our `AIDataCollect` CA from the camera's trust store\n\nThis keeps the camera in a clean state so a future re-enrollment \u2014 or a different stack install enrolling the same physical camera \u2014 doesn't trip the cert-name collision bug above.\n\nIf you Restore-within-24h, the symmetric restore step re-pushes the CA and re-binds MQTT, so a restored camera resumes traffic without any extra steps.\n\n## Upgrading\n- **Connected sites** \u2014 Settings \u2192 System \u2192 Updates \u2192 Install all.\n- **Closed-network sites** \u2014 download the `.adcupdate` bundle below and use Install from file.\n\nIf you're freshly installing from scratch (not upgrading), grab the latest `install.sh` from the deploy repo and run it. The SFTPGo and chown fixes only ship via `first-run.sh`, so a fresh install picks them up automatically.\n",
+  "released_at": "2026-05-23T12:26:28Z",
+  "schema_version": 1,
+  "version": "v0.1.22"
+}
