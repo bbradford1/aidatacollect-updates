@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:40e361b1282988c0f8a5c931af01232fca75554b3f4d0292e86c8fc454580249",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.26",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:9fc402004a319bffd44e9182aa3b7e0fb9a4a483ee4a593aa573f7a527f909b6",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.26",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:6229617622f61dd130592407f01d5b6f9ae6ff2b714c33addc072d8b246d09b7",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.26",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:923f2ded258a2275bd80462650398e0d638846d15f2988178d5c79a387e9337e",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.26",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:d11351c047dac1a3235fcf04437518389e6244072a2daba998bfe80575490157",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.26",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "",
+  "released_at": "2026-05-23T21:18:55Z",
+  "schema_version": 1,
+  "version": "v0.1.26"
+}
