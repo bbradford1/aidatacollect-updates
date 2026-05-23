@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:a71f875d859962fdf31fa9098fa405d04d55160d8bf984c83174a01361ee7cb8",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.24",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:222032683cfa7e1bec0ebd29e264590de538bcd61992529f7a7099c524d0d82a",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.24",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:841478a383763e52b1106f7a8e89bf43cfda9157463b23fe6b615330e27bc3dc",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "mqtt-ingest",
+      "tag": "v0.1.24",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:31cd0683accee8e9afcff85a82323a2e67276d4c1cc230b136776cc3d9f1ddf8",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.24",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:8f5a8a78ada5a8088483451c3655fdbfada16a901e8076f0216bbbd88f8bbd9d",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.24",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.1.24 \u2014 heatmap cleanup fix\n\n### adc-api can finally delete aged heatmap PNGs\n\nThe heatmap_purge cycle has been logging this on every retention\npass since heatmaps were introduced:\n\n```\nWARNING api.services.heatmap_purge Failed to delete \\\n  /data/heatmaps/<sha>.png: PermissionError\n```\n\nCosmetic warning but a real slow leak \u2014 `/data/heatmaps/` grows\nwithout bound because adc-api (uid 1001) can't unlink files in a\nroot-owned directory. Same root-owned-volume family as the\nSFTPGo and api-state-dir fixes in v0.1.22 / v0.1.23.\n\n`adc-sftpingest` now chowns `/data/heatmaps/` to uid 1001 at\nstartup, so the api side has the directory write+exec it needs\nto remove files past retention. Idempotent \u2014 heals on update\nwithout any operator action.\n\n### Upgrade notes\n\n- Image swap only \u2014 no schema migrations, no manual steps.\n- The chown fires on the first adc-sftpingest startup after the\n  update. From that point, retention deletes work cleanly and the\n  WARNINGs stop.\n- Existing root-owned PNGs get chowned along with the parent\n  directory, so the next purge cycle catches up on the backlog.\n- No customer-visible behavior change beyond the slow `/data/heatmaps/`\n  growth stopping.\n",
+  "released_at": "2026-05-23T14:30:09Z",
+  "schema_version": 1,
+  "version": "v0.1.24"
+}
