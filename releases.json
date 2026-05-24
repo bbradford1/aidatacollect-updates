@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:7ed03453553d52d378cecc19d670d67dfa0b9741e31234944a0fd5f1487c2da1",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.1.27/release-v0.1.27.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:9234241c1a304080f059197eaedd8134838c6739954e436b8f8357d302bd1c05",
+      "packages_sig_url": "builds/v0.1.27/packages.json.sig",
+      "packages_url": "builds/v0.1.27/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "## v0.1.27 \u2014 Vendor portal Phase 2, automatic script updates, license UX polish\n\n### Highlights\n\n**Air-gap script updates** \u2014 Installing this release also updates the host-side\nhelper scripts (`backup.sh`, `restore.sh`, `update.sh`, etc.). Previously these\nonly changed via manual file copy, which doesn't work on air-gap deployments.\nYour previous copies are snapshotted under `scripts/.previous-<timestamp>/` if\nyou ever need to roll back.\n\n**License page** \u2014 Removed licenses now hide by default. A footer shows\n`N removed licenses hidden \u2014 auto-purge after 24h \u2014 [Show] [Purge now]`.\nThe auto-purge sweep runs hourly in the background; Purge-now triggers it\nimmediately via the new `POST /system/licenses/purge_removed` endpoint.\n\n**Disaster recovery hardening**\n- `backup.sh` no longer fails on fresh installs that have no alert snapshots\n  yet (the alert-archive step now gracefully skips an empty volume rather\n  than erroring out)\n- `restore.sh` smoke probe now correctly recognizes a healthy stack \u2014 was\n  treating the auth-required `/api/v1/health` 401 as a failure and\n  false-reporting a successful restore as broken\n\n**Vendor portal** (for the AIDataCollect operator, not customers)\n- New Systems inspector pages: `/systems` and `/systems/{id}` show every\n  license issued for a given customer install, with revoked rows dimmed\n- Per-row Revoke action on the system detail page (vendor-ledger-only;\n  customer-side enforcement ships with CRL in a future release)\n- Sign form pre-fills `system_id` from URL query parameter, enabling\n  one-click \"issue another license for this system\" deep-links\n- `device_cap` default lowered from 50 \u2192 5 to make accidental wide-open\n  licenses less likely\n\n### Upgrade notes\n\nStandard install through the Updates page. The new script-shipping behavior\ntakes effect on this install \u2014 meaning your existing `backup.sh`/`restore.sh`\nwill be replaced with the v0.1.27 versions, with the old copies preserved\nunder `scripts/.previous-<timestamp>/`.\n",
+      "released_at": "2026-05-24T13:53:51Z",
+      "version": "v0.1.27"
+    },
+    {
       "bundle_sha256": "sha256:6f249b8d241be03fd7a37122de6ead0c7c6097b56f82df4406aaa6ac5a220cdd",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.1.26/release-v0.1.26.adcupdate",
       "channel": "stable",
