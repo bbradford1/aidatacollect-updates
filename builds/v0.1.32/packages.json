@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:869bd8708100c84769e8e9a82e3573a453c87533ad547a4526361c3ff4cfa83f",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.32",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e874b7bfe4cc451cb5b6c15ab5991b83fa08f8439da8bfd550bef7fdfd43b65b",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.32",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:76d9ae1bcbbfffb7c5ed489c9393f6ea298fa756f1299c24c71955948b31b830",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.1.32",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:363cc88d2d813e3c125d301ed856f1a7a285ee05b4b73eae3e5af4d920a7cc03",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.32",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e266ee1a58bd2afac20ce3fc67e8a5566bcc47655c1e8b9ebb3cdd22375c4a9f",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.32",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## Hotfix for v0.1.31\n\nFixes a SUP-gate and write-gate false-unblock caught during integration\ntesting on the lab VM.\n\n### Bug\n\nOn any deployment that still carries a legacy `system_config[license_blob]`\nrow alongside the v0.1.26+ stackable `licenses` table (every existing\ndeployment), the Phase 3B SUP-gate and Phase 3G write-gate could be\nfalsely unblocked. The cross-worker coherence path in `check_can_update`\nand `check_writes_allowed` read the legacy single-blob row instead of\nthe stackable aggregate. When the legacy row's SUP date differed from\nthe stackable aggregate's (e.g. after install/remove of stackable\nlicenses), the legacy reading won.\n\nResult on lab VM: install of a lapsed-SUP license + removal of originals\nleft the stackable aggregate at `valid_support_lapsed`, but the legacy\nrow was unchanged and reported `valid` with future SUP \u2014 the SUP-gate\nreturned `None` (allowed) for every minor/major upgrade attempt.\n\n### Fix\n\nSwap `reverify_cached_blob` \u2192 `get_aggregated_state` in both gate\nhelpers. The aggregate is the stackable-licensing source of truth on\nv0.1.26+ and has its own cross-worker coherence via the\n`_active_set_fingerprint` md5 over the licenses table.\n\n### Impact\n\nAny v0.1.31 deployment relying on the SUP-gate or write-gate to block\nunauthorized operations was effectively unprotected. Patch + minor +\nmajor upgrades all unblocked; portal mutations on expired-demo\nunblocked. Phase 3A band policy, cleanup worker, and Phase 3F worker\nevent-dropping are unaffected \u2014 they don't go through the bugged\npaths.\n\n### Test coverage\n\nUpdated the original unit tests, which had been mocking the wrong\nhelper (the very layer that caused the bug). Now mock\n`get_aggregated_state` instead. Suite stays at 401 passing.\n",
+  "released_at": "2026-05-24T22:53:27Z",
+  "schema_version": 1,
+  "version": "v0.1.32"
+}
