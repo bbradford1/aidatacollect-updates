@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:9c2273f68ff559a5b7d1e255d6b74ba9f53daf0b8cddb599b1576d817e22bdf6",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.30",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:5a1d798c4d49f09d2550cafe19d8008fde845f0a8aea5c5095f724a3e4239dd8",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.30",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:0e2462f07c30a097b5632ba4d77c0850d3a85ddfe86dd6db31f4467fdec1192f",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.1.30",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:c687294b3c9e9813152c7b0d4029408fb7124728b592f563391636bfed5e60e1",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.30",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:5eb80385929e6130d59e317462b74a22c5ea58373d10624a2a8bd77d4bd2af57",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.30",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "# v0.1.30 \u2014 Offline Activation Handshake\n\nThis release adds a tidy two-step flow for customers on closed or\nair-gapped networks to request a license, expansion, SUP renewal,\nor re-issue without copy/pasting your system_id by hand.\n\n## What's new\n\n**Download system info \u2014 Licensing page**\n\nA new **Download system info** button appears at the top of the\nSystem \u2192 Licensing page. Clicking it exports a small `.txt` file\ncontaining your system_id, hardware fingerprint, currently-running\nversion, and (when a license is already installed) your customer\ncontact + current tier/cap/SUP context.\n\nSend that file to your vendor by whatever channel you have available\n\u2014 email from a connected workstation, USB transfer, etc. Your vendor\nwill return a license `.txt` you install on the same page using the\nexisting drag-and-drop install card.\n\nThe download works whether or not you already have a license\ninstalled; brand-new deployments can use it to request their first\nlicense without typing anything.\n\n## What's unchanged\n\n- License installation (drop the vendor's `.txt` on the Licensing\n  page) is unchanged. Existing licenses continue to work.\n- All other workflows \u2014 camera enrollment, alerts, reports, backups,\n  software updates \u2014 are unchanged.\n\n## For air-gap deployments\n\nIf you're already on this release stream, the Updates page **Install\nfrom file** card will recognise this `.adcupdate` once you carry it\nin. Drop the bundle, review the notes, and install \u2014 the same flow\nas v0.1.29.\n\n## Closes out\n\n- Carry-forward item #2 from the v0.1.27 plan (\"offline activation\n  polish\") shipped end-to-end.\n",
+  "released_at": "2026-05-24T17:30:14Z",
+  "schema_version": 1,
+  "version": "v0.1.30"
+}
