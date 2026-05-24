@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:9f03ee67cc355a7663295645f9e3a13f770d5efe8d578f12091417ad6535fb9c",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.1.29",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:a68421f019a7e4a9fc624ff4c11f0a4c6c0c1454fad27232e4e353fb7cf8ea81",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.1.29",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:8c297cd555503b26fa0af97987205fba0e57ba0ac1c51ef7549e67b9706cd8d2",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.1.29",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:3a6b1019c27a571ba1663b68284907d46dd8c5ff98792ae4a6cf210206ba84cf",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.1.29",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:b73b6763a1295593b026ca0ff9bff64abdc6bbafcf575b4d69edd842ea4f2356",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.1.29",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.1.29 \u2014 `compose/scripts/` now ships in the air-gap bundle\n\n### What this fixes\n\nv0.1.27 added a way to ship the **top-level** host-side scripts\n(`backup.sh`, `restore.sh`, `update.sh`, `install.sh`, etc.) inside the\n`.adcupdate` bundle. v0.1.28 fixed a critical air-gap install bug by\nadding a `--packages-json` flag to `record-versions.sh` \u2014 but\n`record-versions.sh` lives in `compose/scripts/`, a sibling directory the\nbundle wasn't touching. So customers who installed v0.1.28 still had the\nold `record-versions.sh` on disk and had to manually copy the new one in.\n\nv0.1.29 extends the bundle to ship `compose/scripts/` too, with its own\nwhitelist of customer-runtime helpers (`record-versions.sh`,\n`first-run.sh`, `generate-mqtt-certs.sh`, `generate-ssl.sh`, and the\n`adc-*` shortcuts). Vendor-side build tooling that lives in the same\ndirectory (`build-adcupdate-bundle.sh`, `build-packages-json.py`,\n`sign-update-manifest.sh`) is deliberately excluded \u2014 those run only in\nthe release CI and have no business on a customer's host.\n\n### Why it matters\n\nFrom v0.1.29 onwards, any future fix to `record-versions.sh` or other\ncompose-side helpers will reach customers through the normal\n**Install from file** path \u2014 no `scp` required, no out-of-band steps.\nPrevious copies are snapshotted to `compose/scripts/.previous-<timestamp>/`\nso a regression can be rolled back by `cp -r`.\n\n### Internal note\n\nThis is the symmetric counterpart to the existing `scripts/.previous-*`\nsnapshot behavior that v0.1.27 introduced. Both apply paths now use a\nshared helper function instead of duplicated inline logic, so future\nscript-shipping additions only need a whitelist entry.\n\n### Upgrade\n\nStandard install through the Updates page \u2192 **Install from file** with\nthe v0.1.29 `.adcupdate`. No data changes, no schema migrations.\n",
+  "released_at": "2026-05-24T15:31:12Z",
+  "schema_version": 1,
+  "version": "v0.1.29"
+}
