@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:ecddc60e2842f543b149c93ce580f72ecda31aaf46776f5673848844129db623",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.2.0/release-v0.2.0.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:ab4ed12a5468e4744f82121d4ef108d4a5244fe263e463649607918458bec006",
+      "packages_sig_url": "builds/v0.2.0/packages.json.sig",
+      "packages_url": "builds/v0.2.0/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "## v0.2.0 \u2014 Licensing Overhaul (Phase 3 go-live)\n\nThis is a major licensing update. License files no longer carry any\ncustomer identity, activation can now be done online with a short key,\nand support-plan status governs which upgrades you can install. The\nupdate is delivered the usual way and works on both internet-connected\nand air-gapped deployments.\n\n### What's new\n\n- **Online activation.** On a connected deployment you can now activate\n  by typing a 16-character license key on the License page \u2014 no file\n  exchange needed. Offline/air-gapped deployments keep the existing\n  download-system-info \u2192 receive-license-file flow, auto-selected when\n  the licensing server isn't reachable.\n- **Automatic daily refresh.** Connected deployments check in once a day\n  to pick up renewals, capacity changes, and revocations automatically.\n  This is a no-op on air-gapped systems and never downgrades a working\n  license when the server is unreachable.\n- **Hardware migration request.** Move a license to new hardware from the\n  License page. Within your migration allowance it rebinds immediately;\n  beyond it, the request is routed to the vendor for approval.\n- **Support-plan gating on updates.** Patch releases install on any active\n  license. Minor and major upgrades require an active support plan; a\n  lapsed plan still runs and still takes patches, and rollbacks are always\n  allowed.\n- **Privacy: no identity in license files.** License artifacts no longer\n  contain customer name or email, so backups, logs, and support\n  attachments don't leak identity.\n- **Ingest/writes pause on an expired license.** When a license expires,\n  event ingest stops within ~60s and the portal goes read-only until a\n  valid license is in place. Existing data is untouched.\n- **Refreshed License page** with clear Not-activated / Activating /\n  Activated states and per-license actions.\n\n### Upgrade notes\n\n- Existing license files keep working \u2014 they're still recognized after\n  the upgrade. Connected deployments will refresh automatically; if the\n  vendor has issued you a new key, enter it on the License page.\n- Self-service trials have been removed. New deployments go straight to\n  activation after setup.\n- Air-gapped deployments are fully supported via the offline activation\n  flow; none of the online features are required.\n",
+      "released_at": "2026-05-28T21:00:58Z",
+      "version": "v0.2.0"
+    },
+    {
       "bundle_sha256": "sha256:11fb5533dd47e0b11833dcfc2023c769fccfb695131d552bfa983c5844043c8e",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.1.32/release-v0.1.32.adcupdate",
       "channel": "stable",

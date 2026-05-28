@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:9c08c918d71809294906864c9cc1f046aebdd53a235a131f9444929b57c0ba80",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.2.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:a7ce935385de2cf953c707d5550e1e9c2c9fb365760baf7e5cf4e5edd907b72d",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.2.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:35a0e0c318ca0f4fffb6de2ef8b949807e4bab59fcbd906d13b6b3b26e6e472f",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.2.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:6896f4fba36f3f7cb56fa49b9f944ef55f1e3af7e383b2e33e1a374b637b1af3",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.2.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:cc2aa8a70a3e9b253bc333d7f1c5988d323b16119609d74dba5dff10559fdb05",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.2.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.2.0 \u2014 Licensing Overhaul (Phase 3 go-live)\n\nThis is a major licensing update. License files no longer carry any\ncustomer identity, activation can now be done online with a short key,\nand support-plan status governs which upgrades you can install. The\nupdate is delivered the usual way and works on both internet-connected\nand air-gapped deployments.\n\n### What's new\n\n- **Online activation.** On a connected deployment you can now activate\n  by typing a 16-character license key on the License page \u2014 no file\n  exchange needed. Offline/air-gapped deployments keep the existing\n  download-system-info \u2192 receive-license-file flow, auto-selected when\n  the licensing server isn't reachable.\n- **Automatic daily refresh.** Connected deployments check in once a day\n  to pick up renewals, capacity changes, and revocations automatically.\n  This is a no-op on air-gapped systems and never downgrades a working\n  license when the server is unreachable.\n- **Hardware migration request.** Move a license to new hardware from the\n  License page. Within your migration allowance it rebinds immediately;\n  beyond it, the request is routed to the vendor for approval.\n- **Support-plan gating on updates.** Patch releases install on any active\n  license. Minor and major upgrades require an active support plan; a\n  lapsed plan still runs and still takes patches, and rollbacks are always\n  allowed.\n- **Privacy: no identity in license files.** License artifacts no longer\n  contain customer name or email, so backups, logs, and support\n  attachments don't leak identity.\n- **Ingest/writes pause on an expired license.** When a license expires,\n  event ingest stops within ~60s and the portal goes read-only until a\n  valid license is in place. Existing data is untouched.\n- **Refreshed License page** with clear Not-activated / Activating /\n  Activated states and per-license actions.\n\n### Upgrade notes\n\n- Existing license files keep working \u2014 they're still recognized after\n  the upgrade. Connected deployments will refresh automatically; if the\n  vendor has issued you a new key, enter it on the License page.\n- Self-service trials have been removed. New deployments go straight to\n  activation after setup.\n- Air-gapped deployments are fully supported via the offline activation\n  flow; none of the online features are required.\n",
+  "released_at": "2026-05-28T21:00:58Z",
+  "schema_version": 1,
+  "version": "v0.2.0"
+}
