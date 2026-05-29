@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:2ecae6fba050617c6d7623e2d424d3d2ea53c75f307b8aaf26889632c78d5abe",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.2.1/release-v0.2.1.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:2b2bfa37cd966a76c3cd88f66cf210ce51bb5538d71570cfbef9ed844ad1bb75",
+      "packages_sig_url": "builds/v0.2.1/packages.json.sig",
+      "packages_url": "builds/v0.2.1/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "## What's new in v0.2.1\n\n- **More reliable license enforcement after upgrades.** License status checks in the event-ingest pipeline now apply consistently whether you're on a fresh install or upgrading from an earlier version. Previously, this check could stay dormant after an in-place upgrade.\n- **Simpler, more secure ingest service.** The ingest worker no longer needs direct database credentials \u2014 it now reads license status over the internal service API, reducing its access footprint.\n\n## Upgrade notes\n\n- No action required. This upgrade is drop-in.\n- Fresh installs and upgrades both pick up the corrected behavior automatically.\n- The ingest worker's database environment variables are no longer used and can be ignored; new installs omit them.\n\n<details><summary>Technical changelog</summary>\n\n- api: serve \u00a73.3 ingest gate over internal HTTP \u2014 new no-auth, internal-only `GET /system/license-ingest-gate` (PUBLIC_PATHS), returns `{blocks_ingest, state}` computed fresh from aggregated state (7f20394).\n- ingest: `LicenseStateCache` HTTP-polls the api via httpx over the existing `REGISTRY_API_URL` channel; dropped asyncpg pool + DB_* settings + requirement (ecdb179).\n- deploy/compose: removed ingest-worker `DB_*` env + pgbouncer `depends_on`; gate rides existing `REGISTRY_API_URL` (da6f30e).\n- Rationale: the prior gate polled Postgres via compose `DB_*` env that only reaches fresh installs, so it ran dormant on every in-place upgrade. HTTP rework fires everywhere with no new compose dependency.\n\n</details>\n",
+      "released_at": "2026-05-29T15:02:38Z",
+      "version": "v0.2.1"
+    },
+    {
       "bundle_sha256": "sha256:ecddc60e2842f543b149c93ce580f72ecda31aaf46776f5673848844129db623",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.2.0/release-v0.2.0.adcupdate",
       "channel": "stable",
