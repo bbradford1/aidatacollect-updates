@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:ee7f335868a1b17c3dccc39ea54e4ef6fbacab696ad2167e3830779400a756f4",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.2.4",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:f86112bbe43c08ff8fabc17ccd56a79c2a50d7bf2176d3cb856291dcb70f4283",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.2.4",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:ca6c12d55acfa736dbd889cda48b7e5919b223eda4f0d3de70e3d0eee40798b8",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.2.4",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:12a258ca86472e059800e9eef947bcdb45e0498caf76c5ad9e88faf7a4965e5b",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.2.4",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:fb4cbd9335f7999296fc85e98c1bc1fc5bbfd6e7d8c30690ec06bf77b6fa5b5c",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.2.4",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.2.4 \u2014 Security & MQTTS camera-connection fixes\n\nNo configuration changes and no action required. Existing installs can apply this from the in-product **Updates** page.\n\n### Fixes\n- **MQTTS cameras now reconnect reliably after a certificate change.** Some cameras (e.g. Hanwha TNV-C8011RW and similar models) could fail to receive an updated trusted-CA certificate when re-enrolled \u2014 for example after the server's MQTT certificate authority was regenerated \u2014 leaving the camera unable to complete the secure (MQTTS) handshake and silently producing no events. The certificate is now correctly replaced on these cameras, so secure-MQTT enrollment and re-enrollment connect and stream events as expected.\n- **Credentials are no longer written to application logs.** Camera request logging could, in some cases, record camera/broker credentials in plaintext in the backend logs. Logging is now clamped and a redaction safeguard strips any credentials (passwords, tokens, keys) from log output. Existing log files are unaffected by this change; only newly written logs benefit.\n\n### Internal\n- Added a regression test that locks in the corrected MQTTS certificate-unbind behavior across camera models.\n\n_All container images were rebuilt for this release._\n",
+  "released_at": "2026-05-31T18:14:58Z",
+  "schema_version": 1,
+  "version": "v0.2.4"
+}
