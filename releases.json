@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:12f76e4c7a9259ffe0dac4a3a0e22d8b4fbec72bef4bd9cbfa9e0cfc98c236e1",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.2.3/release-v0.2.3.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:5627da9efa4811d4a919c7236c01171469cf5dd5279e970d8f053e701a6f1f30",
+      "packages_sig_url": "builds/v0.2.3/packages.json.sig",
+      "packages_url": "builds/v0.2.3/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "## v0.2.3 \u2014 License page redesign & clearer enrollment guardrails\n\nNo configuration changes and no action required. Existing installs can apply this from the in-product **Updates** page.\n\n### What's new\n- **Redesigned License page.** A cleaner, at-a-glance view of your license: current device usage against your seat count, support-plan status with its expiry date, and a short license reference for support calls (full identifiers are still available under Details). When you're at your seat limit, the page now shows a calm, informational notice rather than an alarming one \u2014 being at capacity is a normal state, not an error.\n- **Check for Updates, in one place.** The license actions are consolidated, including a clear \"Check for Updates\" action. On air-gapped installs, online-only actions are hidden automatically.\n- **Clearer enrollment limits.** When your license is inactive or at its seat limit, the portal now consistently prevents adding a camera \u2014 both on the Devices page and at the very first step of the enrollment wizard \u2014 with a plain-language explanation of why. This mirrors the server's existing enforcement, so you find out before you start, not after.\n\n### Fixes\n- The License page now shows your **actual** enrolled device count instead of occasionally displaying 0.\n\n### Internal cleanup\n- Added automated safeguards that verify every camera-enrollment path stays behind the license check, and resolved a framework deprecation warning. No user-visible change.\n\n_All container images were rebuilt for this release._\n",
+      "released_at": "2026-05-31T12:29:59Z",
+      "version": "v0.2.3"
+    },
+    {
       "bundle_sha256": "sha256:8cdf50a208da099220388c1531e46889561146daa3f391a93df8735bcf5f2a31",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.2.2/release-v0.2.2.adcupdate",
       "channel": "stable",
