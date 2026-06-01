@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:75cff948b0cd2b409bbe902da26cde88ddb72b559efa570e540acd62f3ce1124",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.2.6",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e1ee66ad3025d2755122e086b36c550a104a14283f2f7d89c2b2d9d23b35e9b7",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.2.6",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:b1699321fb35d9ac6030907646f7c2a37965acf3278760ea1eef936a98f4ccde",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.2.6",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:818c9ff710fd2324d403f4cbc701489ba346407f0eb56bf367b2c65ec71744a4",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.2.6",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:8c0c40ac67f96eabc9d7973256bea3f744139a7b94ebae482409f56d7812e2a1",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.2.6",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## What's new\n\n**A redesigned, customizable dashboard.** Your home screen now leads with your camera data. Build the view you want: add and arrange widgets from a gallery, save multiple layouts, and switch between them. On first run after adding a camera, a layout picker offers 12 ready-made templates (including a General template for any setup) to get you started in one click.\n\n**Guided onboarding that understands your space.** Enrollment now captures each camera's role (entrance, interior, overview, perimeter, parking) and suggests one automatically from the camera itself. A new \"General\" role group lets you set up meaningful zones and metrics even when none of the industry presets fit.\n\n**Sharper reporting.** Analytics queries can now filter by camera role and accept a custom start/end date range, so you can slice your data exactly how you need it.\n\n**System Health has its own page.** Infrastructure and service status moved off the main dashboard into a dedicated System Health view, keeping your home screen focused on what your cameras are seeing.\n\n**Tile drill-down everywhere.** Click any dashboard widget to open the detailed breakdown and export it to CSV \u2014 the same drill-down that was previously limited to preset pages.\n\n## Upgrade notes\n\n- No manual steps. The update applies a small database change automatically on first start (adds the saved-dashboards table; removes two unused legacy tables).\n- The old `/presets` pages now redirect to the new dashboard. Your existing data and zones are unchanged.\n\n<details><summary>Technical changelog</summary>\n\n**api** (`9b236ce`)\n- `feat(onboarding)`: general role group in metric catalog + capture `camera_role` at enrollment (#18, #17) \u2014 `83a0b6f`\n- `feat(query)`: `camera_role` filter + custom date range in analytics query \u2014 `08bf3e8`\n- `feat(dashboards)`: `dashboard_layouts` store + CRUD/resolve API (Phase 3A) \u2014 `9b236ce`\n- `refactor(cdp)`: trim retired `.cdp` lifecycle from cdp_service (dead code) \u2014 `3ea97c1`\n\n**portal** (`028d593`)\n- `feat(onboarding)`: capture `camera_role` in wizard + carry zone role forward (#17) \u2014 `fe4d259`\n- `feat(dashboard)`: reusable `DashboardGrid` + General template (Phase 3B) \u2014 `8c3fe8c`\n- `feat(dashboard)`: camera-data-first dashboard + System Health split (Phase 3C) \u2014 `44e6113`\n- `feat(dashboard)`: template registry + first-run layout-picker (Phase 3C/3D) \u2014 `530feb1`\n- `feat(dashboard)`: drill-down parity + retire `/presets` routes (Phase 3D) \u2014 `028d593`\n\n**dbwriter** (`8274096`)\n- `chore(db)`: drop orphan legacy-CDP tables `camera_pack_assignments` + `camera_features` \u2014 `8274096`\n\n**ingest / ftpingest**: no code changes (re-tagged to keep the release image set aligned).\n\n</details>\n",
+  "released_at": "2026-06-01T13:08:26Z",
+  "schema_version": 1,
+  "version": "v0.2.6"
+}
