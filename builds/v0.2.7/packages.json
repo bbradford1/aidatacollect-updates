@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:3cb53de91ce64cd2968a753ddc5ea6260662228c4612805fbc30092f8b358cf9",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.2.7",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:7378b667ab4db0324e65787867f72428df0c6be61845d20d9f807d037a76889f",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.2.7",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:6d817ca919a61aa95b025a44fd9ca3628d56a3c4082b03bea18e22f98b3875da",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.2.7",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:5d573bd21d8b1e5a3d2d98e268bca394300b8a755823b86c3d6378e6672a2cdd",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.2.7",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:13fb920d04d3561c3c23f602724f234a0a0c70b9355971f84d4e4384503f1912",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.2.7",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## What's new\n\n**Make the dashboard yours \u2014 now fully editable.** A new Edit mode lets you drag widgets to rearrange them, hide or remove the ones you don't need, and reset to the default layout anytime. Nothing saves until you say so: keep several named layouts, switch between them, and rename or delete them as your needs change.\n\n**Per-widget time and camera filters.** Each widget now carries its own time range and camera scope, shown as a chip in its header \u2014 so you can put \"last 7 days at the front entrance\" right next to \"this year across all cameras\" on the same screen. A caption under each title spells out exactly what you're looking at.\n\n**See your busiest cameras at a glance.** A new \"Most Active Cameras\" widget ranks your cameras by activity over any time range.\n\n**Clearer trend charts.** Charts now label their axis intelligently \u2014 weekdays, month names, or dates depending on the span \u2014 and a Day/Month toggle rolls a long range up into monthly bars. Long ranges scroll left/right so you can page through a whole year, day by day or month by month, and a new \"Last 12 months\" range makes that one click away.\n\n**A more focused home screen.** Camera Groups moved to the bottom of the dashboard and appear only once you've created one. System Health's alerts now match the 24-hour window shown on its tile.\n\n## Upgrade notes\n\n- No manual steps \u2014 your saved layouts, zones, and data carry over unchanged.\n- \"Last 7 days\" (and 30 / 90 days) now show exactly that many days; previously they included one extra day.\n\n<details><summary>Technical changelog</summary>\n\n**api** (`5d21ec0`)\n- `feat(events)`: `/events/top-cameras` \u2014 rank cameras by total event volume (powers Most Active Cameras) \u2014 `95e32f9`\n- `fix(analytics)`: `last_7d/30d/90d` span exactly N days, not N+1 \u2014 `0b67c44`\n- `feat(analytics)`: add `last_12m` (Last 12 months) time-range preset \u2014 `5d21ec0`\n\n**portal** (`455eb06`)\n- `feat(dashboard)`: Camera Groups pinned to dashboard bottom + System Health alerts bounded to 24h \u2014 `8e0bcb5`, `20c567f`\n- `feat(dashboard)`: Edit mode \u2014 drag-reorder within section, Hide/Remove per module, Reset to default, Esc to exit \u2014 `45ef254`, `53cc35c`, `e290160`, `074b698`, `4a20e35`\n- `feat(dashboard)`: explicit Save (no autosave) + name, rename, and delete saved layouts \u2014 `9cef8be`, `f964718`\n- `feat(dashboard)`: per-module filter chip in the tile header (global filter bar removed) + scope caption \u2014 `8e2a6b0`, `5ecee6a`, `ef60c83`\n- `feat(dashboard)`: adaptive chart x-axis labels + Day/Month toggle + horizontal scroll for day and month views \u2014 `f9eca7c`, `629e605`, `6377e93`, `f38b1d2`, `d645148`\n- `feat(dashboard)`: Most Active Cameras widget + `last_12m` range option \u2014 `6377e93`, `455eb06`\n\n**dbwriter / ingest / ftpingest**: no code changes (re-tagged to keep the release image set aligned).\n\n</details>\n",
+  "released_at": "2026-06-01T16:37:34Z",
+  "schema_version": 1,
+  "version": "v0.2.7"
+}
