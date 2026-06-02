@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:84012e6c4c28acc1c6e08d3577df524c6da7dda39931fb3ab7e5767d3df29358",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.2.8",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e16a4a34a2ef0e4b6780a6a1b5d028778315104f2fd3d7d8071b87d9fcd2445d",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.2.8",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:682db6798082ebadc4f40940bd57ac6847ed570e55322fea3efc596b6596547f",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.2.8",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:103e4b11cb3459b208f0bffb2857ff3dfdf8a5cff19160f4f786a8d88eab0aad",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.2.8",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:04720e0ecedc7e953d910931420bcaa3075035683d8a5c4d8c6e8837cbc4da5a",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.2.8",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## What's new\n\n**Click any chart widget to enlarge it.** Tap a module on your dashboard and it opens full-size in a clean window \u2014 a big, easy-to-read chart up top with the underlying events listed right below it. Scroll through the records and export them to CSV without ever leaving the view. Press Esc or click away to return.\n\n**Color-coded trends at a glance.** Charts now highlight what matters. Time-sensitive measures like wait times, queue depth, and after-hours activity shade green / amber / red against sensible thresholds, while volume measures like traffic and occupancy spotlight their busiest days. Quiet, normal days stay calm so the exceptions jump out.\n\n**Smarter chart shapes.** A long daily range now draws as a single continuous trend line that fits the whole window on one screen \u2014 no more scrolling a wall of skinny bars to read a year. Shorter ranges and the monthly roll-up still use bars, and notable days are marked with a standout dot.\n\n## Upgrade notes\n\n- No manual steps \u2014 your saved layouts, zones, and data carry over unchanged.\n\n<details><summary>Technical changelog</summary>\n\n**portal** (`a7f9703`)\n- `feat(dashboard)`: click a module to enlarge it \u2014 re-renders the same tile at large size with the records list + CSV export inline and scrollable (replaces the click\u2192slide-over) \u2014 `a7f9703`\n- `feat(dashboard)`: per-point threshold color-coding (absolute green/amber/red for wait/queue/after-hours/perimeter/restricted; relative top-of-window highlight for traffic/occupancy/interior/service/parking; month view falls back to relative) + automatic chart type by range (>30-day day view \u2192 filled area-line with standout dots, shorter ranges / month view \u2192 bars) \u2014 `fa08f8a`\n\n**api / dbwriter / ingest / ftpingest**: no code changes (re-tagged to keep the release image set aligned).\n\n</details>\n",
+  "released_at": "2026-06-02T03:13:25Z",
+  "schema_version": 1,
+  "version": "v0.2.8"
+}
