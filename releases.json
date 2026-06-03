@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:90da2af239e88f4b19ccc4ed650f261f4d4b5e576a8e8868f1c704bc47906405",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.2.9/release-v0.2.9.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:185c96fb033d09746b08eb5f2d63d6246138a59e0d8c4c8c382f8bd9e29dafe9",
+      "packages_sig_url": "builds/v0.2.9/packages.json.sig",
+      "packages_url": "builds/v0.2.9/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "## v0.2.9 \u2014 Smarter, capability-aware camera enrollment\n\nThis release teaches enrollment to **read each camera's real analytics capability and configure only what it supports**, instead of assuming a fixed object list and pushing it. The result: specialized cameras (warehouse/factory AI apps, motion-only models, FTP-only families) enroll cleanly instead of throwing rejected-analytics errors, and cameras you're taking over keep their existing setup.\n\n### What's new\n- **Capability-driven analytics** \u2014 During configuration we now read the camera's advertised + currently-configured object types and reconcile them with our defaults. We never send an object type the camera rejects, so analytics no longer fails on cameras whose AI vocabulary differs from the standard retail set (e.g. a warehouse camera that detects *Person + Forklift* but not vehicles).\n- **\"Adopt existing zones\" (takeover-friendly)** \u2014 Keeping a camera's zones now preserves its purpose-built configuration and simply enables event delivery using the object types it already supports. We never overwrite zones unless you explicitly choose \"Replace.\"\n- **Expanded analytics vocabulary** \u2014 Forklift, vehicle subtypes (car/bus/truck/\u2026), and license-plate events are now labeled consistently in the event stream.\n- **Clearer health signals** \u2014 A camera whose analytics only partially configured now flags for attention instead of reading \"healthy.\" Report transport (SFTP vs FTP) is labeled accurately, and the live-events connection shows the correct secure MQTTS port.\n- **Better device support requests** \u2014 \"Request device support\" now captures a read-only device fingerprint (model, on-camera apps, supported object types, transports) so unsupported or edge cameras can be added to the support library faster.\n\n### Notes\n- Standard cameras enroll exactly as before \u2014 the reconcile is transparent when a camera supports the full default set.\n- No configuration changes are required; the smarter behavior applies automatically on your next enrollment or re-configure.\n",
+      "released_at": "2026-06-03T19:20:48Z",
+      "version": "v0.2.9"
+    },
+    {
       "bundle_sha256": "sha256:ff10833182fb5c93fbc235c7889514bba71ccd806649e01970c004290bb2572d",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.2.8/release-v0.2.8.adcupdate",
       "channel": "stable",

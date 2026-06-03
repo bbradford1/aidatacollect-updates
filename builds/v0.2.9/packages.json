@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:fa38d3e892c4ab4774f79a775095604904d6ef0ac42f2df5a8cd00c1a0259850",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.2.9",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:c7dca2e113c0e7ca11190c561d844375da487e465657accbf96eaf5444698926",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.2.9",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:6b2d658381f626aea621b923445f4caa4ef6177edefe4e0eff58765ee60524f4",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.2.9",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:7cc07a63fb28db862155faca3c033c90322f7ee614bd030bd5603f2cf8e23ae7",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.2.9",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:027366de2b3b9359452fe0f0b58e981c915deeb3d4cef01880bf1403a7b0a9b3",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.2.9",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.2.9 \u2014 Smarter, capability-aware camera enrollment\n\nThis release teaches enrollment to **read each camera's real analytics capability and configure only what it supports**, instead of assuming a fixed object list and pushing it. The result: specialized cameras (warehouse/factory AI apps, motion-only models, FTP-only families) enroll cleanly instead of throwing rejected-analytics errors, and cameras you're taking over keep their existing setup.\n\n### What's new\n- **Capability-driven analytics** \u2014 During configuration we now read the camera's advertised + currently-configured object types and reconcile them with our defaults. We never send an object type the camera rejects, so analytics no longer fails on cameras whose AI vocabulary differs from the standard retail set (e.g. a warehouse camera that detects *Person + Forklift* but not vehicles).\n- **\"Adopt existing zones\" (takeover-friendly)** \u2014 Keeping a camera's zones now preserves its purpose-built configuration and simply enables event delivery using the object types it already supports. We never overwrite zones unless you explicitly choose \"Replace.\"\n- **Expanded analytics vocabulary** \u2014 Forklift, vehicle subtypes (car/bus/truck/\u2026), and license-plate events are now labeled consistently in the event stream.\n- **Clearer health signals** \u2014 A camera whose analytics only partially configured now flags for attention instead of reading \"healthy.\" Report transport (SFTP vs FTP) is labeled accurately, and the live-events connection shows the correct secure MQTTS port.\n- **Better device support requests** \u2014 \"Request device support\" now captures a read-only device fingerprint (model, on-camera apps, supported object types, transports) so unsupported or edge cameras can be added to the support library faster.\n\n### Notes\n- Standard cameras enroll exactly as before \u2014 the reconcile is transparent when a camera supports the full default set.\n- No configuration changes are required; the smarter behavior applies automatically on your next enrollment or re-configure.\n",
+  "released_at": "2026-06-03T19:20:48Z",
+  "schema_version": 1,
+  "version": "v0.2.9"
+}
