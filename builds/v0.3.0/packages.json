@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:a54c93fb5c0627c4c5c419292180df15d3fbeae6faa3e7c28c0e1b57c420f260",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.3.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:a5c29993ce70cdfb81213d51b102a8fe21a13f2d1a079829817b3b2b635af125",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.3.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:00ae7505c3ead50849263510742c0029e057ae0c10eb9158d51a8de9c4b211a4",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.3.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:bb5b7eb55c20785f29845057534af722219e41f4aeb5de582540139a40797234",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.3.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:5b68ced7ddfa716a233caece3e5585639f6a5f28fb6e81bda7745f9a7013e7e9",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.3.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.3.0 \u2014 Shippable camera support, multi-sensor enrollment & network survey\n\nThis release turns camera support into **installable, signed data** that can grow without an app update, rounds out enrollment for multi-sensor and specialized cameras, and adds a one-click **network survey** that reports exactly which cameras on a subnet are supported.\n\n### What's new\n\n- **Camera support as installable packs** \u2014 Support for new camera models now ships as a signed *support pack* (data, not code). Installing a pack takes effect immediately \u2014 no application restart \u2014 so newly tested cameras become enrollable without waiting for a release.\n- **Online pack catalog + \"pending device support\" queue** \u2014 The system can check a signed online catalog for new support packs and install them in one click (fully optional and air-gap-safe \u2014 offline systems simply skip it). Cameras the wizard can't yet fully support are added to a pending-support queue that auto-clears when a matching pack arrives.\n- **Camera \"personalities\"** \u2014 Cameras running a specialized on-camera AI app (for example a factory & safety app that detects *Person + Forklift*) are now recognized and configured with the right object vocabulary automatically, labeled by their role.\n- **Multi-sensor cameras** \u2014 Multi-lens cameras (e.g. multi-directional / multi-sensor models) now have **every sensor configured**, not just the first channel. Each lens is read and configured against its own capability.\n- **Smarter zone takeover** \u2014 Adopting a camera's existing zones now suggests a role for each zone from its name (editable), so taking over a pre-configured camera lands closer to ready.\n- **Warehouse & logistics analytics** \u2014 New Forklift and Vehicle activity tiles and a Logistics/Warehouse dashboard template surface object-class activity alongside the existing people-centric metrics.\n- **Network survey** \u2014 A new **Survey network** page scans a private subnet, identifies every camera, and reports support coverage at a glance (verified / supported / refused / unidentified) with model, firmware, and analytics path per device. Export the report as CSV or JSON \u2014 ideal for site audits and pre-deployment planning.\n\n### Notes\n- Standard single-sensor cameras enroll exactly as before; the new behavior applies only where it's relevant (multi-sensor hardware, app-specific cameras, takeover).\n- The online pack catalog is optional and never degrades an offline or air-gapped install \u2014 it fails closed and quietly.\n- No configuration changes are required after upgrading.\n",
+  "released_at": "2026-06-04T01:08:03Z",
+  "schema_version": 1,
+  "version": "v0.3.0"
+}

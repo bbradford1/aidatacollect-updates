@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:95402bb51835df7300f9acd2667171620c229a0b1175c489f1cfe123fb6a5e57",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.3.0/release-v0.3.0.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:cb465ec1a55f015ecff01bff8ade40853ac0b1429b75c1ad452ec5a820956e20",
+      "packages_sig_url": "builds/v0.3.0/packages.json.sig",
+      "packages_url": "builds/v0.3.0/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "## v0.3.0 \u2014 Shippable camera support, multi-sensor enrollment & network survey\n\nThis release turns camera support into **installable, signed data** that can grow without an app update, rounds out enrollment for multi-sensor and specialized cameras, and adds a one-click **network survey** that reports exactly which cameras on a subnet are supported.\n\n### What's new\n\n- **Camera support as installable packs** \u2014 Support for new camera models now ships as a signed *support pack* (data, not code). Installing a pack takes effect immediately \u2014 no application restart \u2014 so newly tested cameras become enrollable without waiting for a release.\n- **Online pack catalog + \"pending device support\" queue** \u2014 The system can check a signed online catalog for new support packs and install them in one click (fully optional and air-gap-safe \u2014 offline systems simply skip it). Cameras the wizard can't yet fully support are added to a pending-support queue that auto-clears when a matching pack arrives.\n- **Camera \"personalities\"** \u2014 Cameras running a specialized on-camera AI app (for example a factory & safety app that detects *Person + Forklift*) are now recognized and configured with the right object vocabulary automatically, labeled by their role.\n- **Multi-sensor cameras** \u2014 Multi-lens cameras (e.g. multi-directional / multi-sensor models) now have **every sensor configured**, not just the first channel. Each lens is read and configured against its own capability.\n- **Smarter zone takeover** \u2014 Adopting a camera's existing zones now suggests a role for each zone from its name (editable), so taking over a pre-configured camera lands closer to ready.\n- **Warehouse & logistics analytics** \u2014 New Forklift and Vehicle activity tiles and a Logistics/Warehouse dashboard template surface object-class activity alongside the existing people-centric metrics.\n- **Network survey** \u2014 A new **Survey network** page scans a private subnet, identifies every camera, and reports support coverage at a glance (verified / supported / refused / unidentified) with model, firmware, and analytics path per device. Export the report as CSV or JSON \u2014 ideal for site audits and pre-deployment planning.\n\n### Notes\n- Standard single-sensor cameras enroll exactly as before; the new behavior applies only where it's relevant (multi-sensor hardware, app-specific cameras, takeover).\n- The online pack catalog is optional and never degrades an offline or air-gapped install \u2014 it fails closed and quietly.\n- No configuration changes are required after upgrading.\n",
+      "released_at": "2026-06-04T01:08:03Z",
+      "version": "v0.3.0"
+    },
+    {
       "bundle_sha256": "sha256:90da2af239e88f4b19ccc4ed650f261f4d4b5e576a8e8868f1c704bc47906405",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.2.9/release-v0.2.9.adcupdate",
       "channel": "stable",
