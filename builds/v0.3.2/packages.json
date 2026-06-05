@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:096d99a93a9cb9d67f5d4cf72225509837f55bcc58297a946e51cf142f489b17",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.3.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:f8900f8c030c00b3e8a6c4797273bc12736e254aacd7e0bc8bf6fa91abb41b8e",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.3.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:135e725ba95e853931ed30a40286f2df116b47f7c32c3f958ee48f3002cabcc2",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.3.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:cd1f113cce92454bf994da7bcdaceaac8393cc703a3f370daacc9fb7c0a84178",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.3.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:cf3274e5429b9fbec94ec91ada8b36de3151c9780f1072dbd77c1cbf988a2bb8",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.3.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.3.2 \u2014 Multi-sensor lens analytics\n\nMulti-sensor cameras (such as 4-lens Hanwha PNM-C models) are now first-class on the dashboard. Previously a multi-sensor appeared as a single opaque camera, and per-lens zones that shared a name could be mis-attributed to the wrong role.\n\n### What's new\n- **Per-lens analytics.** Events now carry which camera lens (sensor) they came from, so each lens's zones, roles, and metrics are tracked independently. A multi-sensor that reuses the same zone name across lenses no longer collapses them into one.\n- **New Multi-Sensor view.** A dedicated page (sidebar \u2192 **Multi-Sensor**) shows each lens of a multi-sensor camera side by side \u2014 its zone map (with roles) and an activity chart scoped to just that lens.\n- **Lens-aware dashboard cards.** A dashboard card's source selector now expands a multi-sensor camera into its individual lenses, so you can scope a tile to one sensor.\n\n### Fixes\n- A dashboard card's camera/lens + time-window selection now **saves immediately and survives a refresh** \u2014 previously a change could silently revert.\n- Zone-role tiles (e.g. **Entrance Flow**) on a multi-sensor camera now show the correct data instead of appearing empty.\n\nNo action is required. Existing dashboards keep working and single-sensor cameras are unaffected; per-lens history for multi-sensor cameras rebuilds automatically after the upgrade.\n",
+  "released_at": "2026-06-05T14:35:27Z",
+  "schema_version": 1,
+  "version": "v0.3.2"
+}
