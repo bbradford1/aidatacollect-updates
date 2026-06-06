@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:3fa2c005c7f6abd950c986e616aa2d64823444d77a77506f87a843336b46c4c3",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.5.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:86feb68a2cce9dcc99b97d23d48abe9a2bf4222d4df2b61ac943e1c5b0325d25",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.5.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:206941ccb72d2a060d7fa84be89447a8830efe21627532d1dfc48d40f92cdc11",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.5.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:5e7894522852483eb07797a2b5c0350b0db2e97b96efa598cf75d4bccbf31884",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.5.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:38f062ec3cd62548dab7f87de8e2c9b6cc824d1934ef1acead6078b2a8931371",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.5.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.5.0 \u2014 A guided setup, from a blank screen to live numbers\n\nThis release rebuilds the first hour with the product. A fresh install now\nopens to a blank dashboard and a single **Set up** button that walks you\nthrough the whole job one camera at a time \u2014 add the camera, draw the spots\nyou care about, turn them into cards \u2014 without ever leaving the page or\npicking a \"role\" from a list.\n\n### What's new\n- **A guided Setup Wizard.** One button replaces the old scatter of\n  \"add a camera / add a card / set up a camera / count across cameras\"\n  options. It walks you camera-by-camera: connect the camera, draw your\n  lines and areas, name them in plain words, and the cards appear. When you\n  have more than one camera you can add up their entrances into a single\n  building headcount at the end.\n- **Enter your license key on first run.** New installs can activate online\n  by typing the 16-digit key from your welcome email \u2014 no offline license\n  file required. (The offline file and \"activate later\" options are still\n  there.)\n- **Multi-sensor cameras, one lens at a time.** Cameras with several lenses\n  (e.g. four-sensor models) now keep each lens separate everywhere \u2014 when\n  you draw zones, build cards, or add a lens into a headcount group, you pick\n  the exact sensor instead of guessing. No more lenses collapsing into one.\n- **Cameras come in clean.** Adding a camera no longer pushes pre-drawn\n  zones you didn't ask for. If the camera already has zones on it, you choose\n  to **use what's there** or **clear and start fresh** \u2014 then draw exactly\n  what you want.\n- **Draw a line, watch the card light up.** A counting line you draw in the\n  wizard now feeds its dashboard card directly. You pick which way is \"coming\n  in\" as you draw, and the card fills in with the last 7 days of crossings.\n- **Pick what an area measures.** When you set up an area you choose how to\n  measure it instead of being given one fixed answer.\n\n### Fixes & polish\n- Building a card or a group no longer creates duplicates if you set the same\n  one up twice \u2014 the wizard recognizes what's already there.\n- Leaving the dashboard with unsaved changes now warns you first.\n- The \"add up entrances\" option only appears once you actually have two or\n  more entrances to add up.\n- Quieter logs and lighter background polling on a fresh install.\n\nNo action is required to upgrade. Existing dashboards keep working; the new\nSetup Wizard is available immediately from the dashboard toolbar.\n",
+  "released_at": "2026-06-06T15:43:58Z",
+  "schema_version": 1,
+  "version": "v0.5.0"
+}
