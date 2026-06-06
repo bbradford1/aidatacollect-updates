@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:e05563a06bc138a386674d1eb178c96a6d9c74c8677d55903db03f427cc8946c",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.4.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:c0874aacfe1b0ee436100ab4e32ca6bce655053648b848a8c534e703222c0279",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.4.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e5f6431b301a006c7e7129ec927f2a4fbd37b42789d5b5ac93b259cfd306efaa",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.4.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e39ba789d6b8afdd8394c9e4ddc817cc5b3acd0f7bf7ac40f76b4414fb3afd7b",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.4.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:c1f388ef8af953c274c74e2d3841ff5b371c2749621991f74f92d5c67c58d1c6",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.4.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.4.0 \u2014 Set up your dashboard in seconds\n\nTurning a camera into a useful dashboard used to mean leaving the page for the Zone Manager, hunting for a drawn area, and tagging it with a fixed role from a long list. This release replaces all of that with a guided, on-dashboard setup wizard \u2014 you name the spots you care about in your own words, and the cards light up in seconds.\n\n### What's new\n- **\"Set up this card.\"** A card with no data now opens a focused wizard right on the dashboard. Pick the view, choose (or draw) the spot, give it a name in your own words, and Apply \u2014 the card fills in with the last 7 days of numbers immediately. No navigating away, no jargon.\n- **Name it, don't classify it.** You type a plain name (e.g. \"Front Entrance\", \"Pharmacy Pickup\", \"Drive-Thru Lane\") and it becomes the card title. What the card measures is inferred from what you marked \u2014 a **line** counts people crossing, an **area** measures time spent there. You never have to pick a \"role.\"\n- **Draw a new spot in the wizard.** If nothing is marked on a view yet, draw a box or a line right in the setup window \u2014 it's saved to the camera and the card starts watching it.\n- **\"Set up this camera.\"** For a multi-lens camera, set up everything in one pass: every area and line across all of its lenses is listed, you check the ones you want, name them, and Apply builds all the cards at once.\n- **Build-your-own dashboards.** Start from a blank dashboard and add exactly the cards you want with **\"Add a card.\"** Save it as your own named dashboard.\n- **Count across cameras.** A new **\"Count across cameras\"** card adds up several entrances into one live building headcount \u2014 point it at an existing camera group or create one right from the dashboard.\n\n### Fixes\n- **Saved dashboards now reliably survive a reload.** A storage issue could cause custom cards, saved layouts, and per-card filters to be dropped when the page reloaded; saved dashboards are now persisted correctly. (Layouts saved before upgrading may need to be saved once more.)\n\nNo action is required. Existing dashboards keep working, and the new setup wizard is available immediately on any card that doesn't have data yet.\n",
+  "released_at": "2026-06-06T06:58:18Z",
+  "schema_version": 1,
+  "version": "v0.4.0"
+}
