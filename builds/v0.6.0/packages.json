@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:20d6972653afe2deee2cbcdfde53919c998066ed1c1d47caa3e23349be68ec57",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.6.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:807de956ae79322040cf0a551f99adf60835e0370f1d279426e0a03075bb66d7",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.6.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:43a705c936d1e07d58e0799882063e3e4a9e7edcfe58362876004b859359f4d5",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.6.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:1f144405b8a91f5970d51f653797e968493f9007b2da81c27849384d1e8919f5",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.6.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:87e9c4190ef83a07753dc11efb842884df201e6cea245cbdf715c4a9d892b71a",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.6.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:22e8a5ae7aef121d1537afe946dd7cc5deeeb63ab36ce19849d671bd3b663509",
+      "image": "timescale/timescaledb",
+      "service": "timescaledb",
+      "tag": "2.25.1-pg16",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.6.0 \u2014 Every line, every lens, and your nightly camera reports on the dashboard\n\nThis release fills in the rest of the dashboard. Every counting line you draw\nnow gets its own card, your cameras' nightly statistics reports show up as\ncards, and live crowd and slip-&-fall detection are wired through end to end.\nIt also fixes a batch of quiet failures that could leave a newly added camera\nhalf-configured.\n\n### What's new\n- **Each counting line gets its own card.** Draw two lines on the same camera\n  and you now get two separate cards \u2014 one per line \u2014 instead of the two\n  collapsing into a single combined count.\n- **Your nightly camera reports, as dashboard cards.** The daily statistics\n  your cameras already upload (people counting, vehicle counting, queue\n  management, crowd counting) can now be added straight to the dashboard as\n  trend cards, alongside everything else.\n- **Live crowd counting.** Cameras that report crowd levels now feed a Crowd\n  Count card that shows the day's peak.\n- **Slip-&-fall alerts.** Cameras with slip-&-fall detection now surface a\n  Slip & Fall card so you can keep an eye on incidents.\n- **Multi-sensor cameras deliver on every lens.** Each lens on a multi-sensor\n  camera now reliably reports its own crossings and dwell, so a four-sensor\n  camera fills in all four sensors instead of only the first.\n\n### Fixes & polish\n- **Reports now load reliably.** Fixed an issue that could stop a camera's\n  uploaded reports from being saved, which left report cards empty.\n- **Previously used cameras connect cleanly.** Fixed three silent failures\n  that could leave a re-used camera stuck on \"needs attention\" \u2014 the live\n  events connection, the secure certificate install when a camera's\n  certificate store was full, and a misreported report setup step now all\n  surface and resolve correctly.\n- **Removing a camera leaves nothing behind.** Deleting a camera now fully\n  clears its zones, cards, reports, and history so the next camera you add\n  starts from a clean slate.\n\nNo action is required to upgrade. Existing dashboards keep working, and the\nnew card types are available immediately from the dashboard.\n",
+  "released_at": "2026-06-16T12:45:35Z",
+  "schema_version": 1,
+  "version": "v0.6.0"
+}

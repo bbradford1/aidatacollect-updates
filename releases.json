@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:4b522a8f080b8ab4850363eaa18bd2d6c23c609ecbe786337dfdf1a8bc99edf0",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.6.0/release-v0.6.0.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:c456f9dcb4d1ddb541750e91262f4bfa68b2a8e271702f19c87dc834108d023d",
+      "packages_sig_url": "builds/v0.6.0/packages.json.sig",
+      "packages_url": "builds/v0.6.0/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "## v0.6.0 \u2014 Every line, every lens, and your nightly camera reports on the dashboard\n\nThis release fills in the rest of the dashboard. Every counting line you draw\nnow gets its own card, your cameras' nightly statistics reports show up as\ncards, and live crowd and slip-&-fall detection are wired through end to end.\nIt also fixes a batch of quiet failures that could leave a newly added camera\nhalf-configured.\n\n### What's new\n- **Each counting line gets its own card.** Draw two lines on the same camera\n  and you now get two separate cards \u2014 one per line \u2014 instead of the two\n  collapsing into a single combined count.\n- **Your nightly camera reports, as dashboard cards.** The daily statistics\n  your cameras already upload (people counting, vehicle counting, queue\n  management, crowd counting) can now be added straight to the dashboard as\n  trend cards, alongside everything else.\n- **Live crowd counting.** Cameras that report crowd levels now feed a Crowd\n  Count card that shows the day's peak.\n- **Slip-&-fall alerts.** Cameras with slip-&-fall detection now surface a\n  Slip & Fall card so you can keep an eye on incidents.\n- **Multi-sensor cameras deliver on every lens.** Each lens on a multi-sensor\n  camera now reliably reports its own crossings and dwell, so a four-sensor\n  camera fills in all four sensors instead of only the first.\n\n### Fixes & polish\n- **Reports now load reliably.** Fixed an issue that could stop a camera's\n  uploaded reports from being saved, which left report cards empty.\n- **Previously used cameras connect cleanly.** Fixed three silent failures\n  that could leave a re-used camera stuck on \"needs attention\" \u2014 the live\n  events connection, the secure certificate install when a camera's\n  certificate store was full, and a misreported report setup step now all\n  surface and resolve correctly.\n- **Removing a camera leaves nothing behind.** Deleting a camera now fully\n  clears its zones, cards, reports, and history so the next camera you add\n  starts from a clean slate.\n\nNo action is required to upgrade. Existing dashboards keep working, and the\nnew card types are available immediately from the dashboard.\n",
+      "released_at": "2026-06-16T12:45:35Z",
+      "version": "v0.6.0"
+    },
+    {
       "bundle_sha256": "sha256:6aec5fd0888c39f27800ed646429e31149a5ef40bb42e121279f91eef2abbcb3",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.5.0/release-v0.5.0.adcupdate",
       "channel": "stable",
