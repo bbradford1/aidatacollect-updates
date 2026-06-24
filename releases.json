@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:b133ea8ce16ba7dff44776b6285c324a7ea05b9043af083eae33c5d87705fbe9",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.7.3/release-v0.7.3.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:87ea748a763ead62606974e25a33911f08d7a74ebabb6994758283e2e35fe1af",
+      "packages_sig_url": "builds/v0.7.3/packages.json.sig",
+      "packages_url": "builds/v0.7.3/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "# v0.7.3 \u2014 Zone-first dashboards + licensed-only analytics\n\n**Build dashboard cards around your cameras' real zones.** The \"Add a widget\"\ngallery is now camera-first: pick a camera, then pick one of *its* named zones\n(e.g. \"Front Entrance\", \"Service Counter\") \u2014 and only the metrics that camera\nsupports are offered. The old long list of industry roles is gone, so you bind\na card to a place you actually drew, not an abstract category.\n\n**Dashboards and analytics now require an active license.** Consistent with\ncamera enrollment, the dashboard, analytics, events, and alerts views now show\na clear \"License required\" screen until a valid license is installed. Cameras,\ndevices, and the Licensing page stay accessible so you can get set up. A license\nthat has merely lapsed (expired/grace) keeps showing your existing data \u2014 only a\nnever-licensed or invalid install is locked.\n\n---\n\n### Under the hood\n- Zone binding reads your named-zone catalog directly (`/devices/{id}/channels`\n  \u2192 `zone_display_names`), so the picker works offline and never round-trips the\n  camera.\n- The license read-gate is enforced **server-side** (`require_license_for_reads`\n  on the analytics/events/alerts routers); the portal only mirrors it via the\n  server-computed `blocks_reads` flag. The lock set is tight \u2014 `missing`,\n  `malformed`, `invalid_signature`, `revoked` \u2014 so a once-valid, lapsed license\n  is never dark-screened (air-gap-safe).\n\n### Changed components\n- **api** \u2014 read-side license lock (`blocks_reads` band policy + read gate).\n- **portal** \u2014 zone-first widget gallery; license read-lock mirror screen.\n- ingest / dbwriter / ftpingest \u2014 no functional change (version-aligned).\n",
+      "released_at": "2026-06-24T18:20:35Z",
+      "version": "v0.7.3"
+    },
+    {
       "bundle_sha256": "sha256:2328d8598c55b51342a7210affe51ff9a71f985452ca86c0a85e95687e6b288d",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.7.2/release-v0.7.2.adcupdate",
       "channel": "stable",
