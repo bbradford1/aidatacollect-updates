@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:74ae2afa72a2f516e74882e1bf09a26b98466ef1bd34032dd2b6cf6ee3470ff2",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.7.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:b6296c137f9253159b0cf6521f3e37f2c22947222d2bc573a50fc767d5b1b90b",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.7.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:4d0831ef465b69d52d85bbee55ca6e147bb880262662b3a87dcc539fd69ed89f",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.7.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:c502d6153c379fba90c12b8d1a6b70b56438114354baa558bb501d59a4587014",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.7.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:71c5c3847a7d547cc13c96f3be3328e796d613b2a0f75f03036348830f41f29b",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.7.2",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e62fbf9d3e2b49816a32c400ed2dba83e3b361e6833e624024309c35d334b412",
+      "image": "postgres",
+      "service": "postgres",
+      "tag": "16.4",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.7.2 \u2014 Maintenance release\n\nSmall reliability fixes on top of v0.7.1. No user-facing feature changes.\n\n- **Offline catalog cache fixed.** The last-good cache of the update and\n  support-pack catalogs now persists correctly. Previously the write failed\n  silently, so a restart while offline (air-gapped) would drop the cached\n  catalogs until the next online refresh.\n- **Support-pack metadata corrected.** Published packs now stamp an accurate\n  minimum-API-version.\n",
+  "released_at": "2026-06-24T15:59:27Z",
+  "schema_version": 1,
+  "version": "v0.7.2"
+}
