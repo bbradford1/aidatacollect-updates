@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:bc8b520664d3bb5dd94a86f97c9dd30239598366be8db0a322ee8cd4aa12c8e2",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.8.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:600857a7455b466bb2b9e4bf847a432756202a71ccf5da11d568a903ac3b8113",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.8.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:3f157fea8a73821afcf08b60ff7f58a8e1cdee963c9b7ba9ef633705c97085af",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.8.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:06d50c1c2bfc48bfeee08349c75d369ed18d0ba2fa7b3cfcf3c4c9364a47da12",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.8.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:76b5a005e742726d513aeafb6bc1fc82fd5322133a9bf373e85eff0d2859591d",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.8.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e62fbf9d3e2b49816a32c400ed2dba83e3b361e6833e624024309c35d334b412",
+      "image": "postgres",
+      "service": "postgres",
+      "tag": "16.4",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "# v0.8.0 \u2014 Per-model enrollment engine\n\n**Camera enrollment is now driven by lab-verified per-model recipes.** Adding a\ncamera identifies the exact model, matches it to a verified recipe, and\nconfigures MQTT/SFTP/analytics/reports from that recipe. Recognized models\nenroll end-to-end; an unrecognized model is now **refused up front** with a\nclear message instead of half-configuring and failing later. Multi-sensor\ncameras (e.g. PNM-C32084RQZ) get correct per-lens analytics routing.\n\n---\n\n### Under the hood\n- Retired the legacy family/generation driver layer (`cdp_v2`) entirely; the\n  per-model engine is the single enrollment path. Probe, diagnostics,\n  fingerprint, and camera-status checks were rehomed onto engine-native helpers\n  with identical behavior and response shapes (no wizard changes).\n- Fixed a capability-snapshot encoding bug (double-encoded JSONB) so the\n  dashboard's per-camera card-gating reads resolve correctly.\n\n### Changed components\n- **api** \u2014 per-model enrollment engine is the live enroll path; `cdp_v2`\n  retired; probe/diagnose/fingerprint/status repointed; JSONB snapshot fix.\n- **portal** \u2014 enrollment wizard's configure step posts to the recipe-only\n  `/discovery/enroll`.\n- ingest / dbwriter / ftpingest \u2014 no functional change (version-aligned).\n",
+  "released_at": "2026-06-25T20:44:32Z",
+  "schema_version": 1,
+  "version": "v0.8.0"
+}
