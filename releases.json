@@ -1,6 +1,22 @@
 {
   "releases": [
     {
+      "bundle_sha256": "sha256:fec3677bb0a81537deaae9783ad634948decf5c887f00fcdc17c66eb9f3c9706",
+      "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.9.0/release-v0.9.0.adcupdate",
+      "channel": "stable",
+      "compatible_with": {
+        "before": null,
+        "from": "v0.1.0"
+      },
+      "images_fingerprint": "sha256:7b1d4fb88731ea972a25a74ab0efb1328094886c9bd1cf9347b464a62719a374",
+      "packages_sig_url": "builds/v0.9.0/packages.json.sig",
+      "packages_url": "builds/v0.9.0/packages.json",
+      "release_delivery_days": 7,
+      "release_notes_md": "# v0.9.0 \u2014 Statistical analytics suite\n\n**The dashboard now turns the camera's on-board analytics into trends, not just\nlive alerts.** This release adds a full statistical plane \u2014 people, queue,\nheatmap, and vehicle counting \u2014 pulled directly from each camera and charted\nover time, alongside per-zone dwell alerts. It is separate from (and additive\nto) the real-time event plane.\n\n---\n\n### What's new\n\n- **People counting** \u2014 per named line, today's In/Out plus an In/Out trend over\n  a day (hourly) or week (daily). Disabled lines are hidden but still recorded;\n  an explicit \"Re-enable counting on camera\" action is offered when a camera's\n  counting engine is found switched off (never re-enabled automatically).\n\n- **Queue management** \u2014 per-zone live occupancy vs capacity, congestion level,\n  and an occupancy / busy-time trend chart. **Dwell alerts**: arm a zone to fire\n  when it holds **\u2265 N people for \u2265 M seconds** \u2014 the alert flows through the same\n  notification pipeline as every other alert (toast, bell, log, email, webhook),\n  highlights the zone card red while active, and drops a marker on the chart.\n\n- **Heatmaps** \u2014 the latest density map per camera, pulled on demand from the\n  camera so the dashboard is current without waiting on a scheduled upload.\n\n- **Vehicle counting** \u2014 directional per-line vehicle crossings with the same\n  today + day/week trend treatment as people counting.\n\n- **Daily reports** \u2014 the camera's daily XLSX is stored as a downloadable\n  artifact and cross-checked against the live poll counts (a reconciliation\n  badge flags any drift); the report is never co-mingled into the charts.\n\nAll statistical cards auto-appear for any camera the system detects the relevant\nengine on \u2014 no manual setup \u2014 and stay hidden until such a camera exists.\n\n### Also in this release\n\n- Dashboard card setup no longer pre-selects stale camera zones, and the older\n  industry zone-role control was removed from the Zone Manager.\n- Fixed a camera-side zone delete that was silently failing (stale analytics\n  zones could pile up).\n\n### Changed components\n\n- **api** \u2014 statistical-ingest poller (people / queue / heatmap / vehicle\n  engines), per-engine analytics endpoints, queue dwell-alert watcher, daily\n  report artifact + reconciliation, zone-delete fix.\n- **portal** \u2014 statistical dashboard cards (People, Queue, Heatmap, Vehicle)\n  with trend charts, the queue dwell-alert config + highlight + chart markers,\n  and report download/reconcile; dashboard setup + Zone Manager cleanups.\n- **ftpingest** \u2014 stores the raw daily report artifact and fixes an all-zero\n  report false-failure.\n- ingest / dbwriter \u2014 no functional change (version-aligned).\n",
+      "released_at": "2026-06-26T21:22:40Z",
+      "version": "v0.9.0"
+    },
+    {
       "bundle_sha256": "sha256:5d1ae0bc3d3fee4143082c0f4760fef87e2b671fc5c76776ac6ffa42a329262e",
       "bundle_url": "https://github.com/bbradford1/aidatacollect-updates/releases/download/v0.8.0/release-v0.8.0.adcupdate",
       "channel": "stable",

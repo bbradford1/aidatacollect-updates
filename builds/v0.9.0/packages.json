@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:573615eb127970a1a281557c0dd2ed940338ee71bb2a6df25ae4d6f9d496354f",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.9.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:a89950baca8f31de15dd18354bafcbd1de445dfd3e3d4e9cbf9c21e2ece48a15",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.9.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:a0e65f67fa448e6e3d4105c26355f7f884512f20b879ed57f99161a0daa82f83",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.9.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:3e4fb6b8681c911358565c2d1dac0366aebdfe52991db5ef84ae8253a7c9ff42",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.9.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:c42d15b4593d722493e5a72c8adfe128a177d87d7802c150e8a2e8db1da486fe",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.9.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e62fbf9d3e2b49816a32c400ed2dba83e3b361e6833e624024309c35d334b412",
+      "image": "postgres",
+      "service": "postgres",
+      "tag": "16.4",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "# v0.9.0 \u2014 Statistical analytics suite\n\n**The dashboard now turns the camera's on-board analytics into trends, not just\nlive alerts.** This release adds a full statistical plane \u2014 people, queue,\nheatmap, and vehicle counting \u2014 pulled directly from each camera and charted\nover time, alongside per-zone dwell alerts. It is separate from (and additive\nto) the real-time event plane.\n\n---\n\n### What's new\n\n- **People counting** \u2014 per named line, today's In/Out plus an In/Out trend over\n  a day (hourly) or week (daily). Disabled lines are hidden but still recorded;\n  an explicit \"Re-enable counting on camera\" action is offered when a camera's\n  counting engine is found switched off (never re-enabled automatically).\n\n- **Queue management** \u2014 per-zone live occupancy vs capacity, congestion level,\n  and an occupancy / busy-time trend chart. **Dwell alerts**: arm a zone to fire\n  when it holds **\u2265 N people for \u2265 M seconds** \u2014 the alert flows through the same\n  notification pipeline as every other alert (toast, bell, log, email, webhook),\n  highlights the zone card red while active, and drops a marker on the chart.\n\n- **Heatmaps** \u2014 the latest density map per camera, pulled on demand from the\n  camera so the dashboard is current without waiting on a scheduled upload.\n\n- **Vehicle counting** \u2014 directional per-line vehicle crossings with the same\n  today + day/week trend treatment as people counting.\n\n- **Daily reports** \u2014 the camera's daily XLSX is stored as a downloadable\n  artifact and cross-checked against the live poll counts (a reconciliation\n  badge flags any drift); the report is never co-mingled into the charts.\n\nAll statistical cards auto-appear for any camera the system detects the relevant\nengine on \u2014 no manual setup \u2014 and stay hidden until such a camera exists.\n\n### Also in this release\n\n- Dashboard card setup no longer pre-selects stale camera zones, and the older\n  industry zone-role control was removed from the Zone Manager.\n- Fixed a camera-side zone delete that was silently failing (stale analytics\n  zones could pile up).\n\n### Changed components\n\n- **api** \u2014 statistical-ingest poller (people / queue / heatmap / vehicle\n  engines), per-engine analytics endpoints, queue dwell-alert watcher, daily\n  report artifact + reconciliation, zone-delete fix.\n- **portal** \u2014 statistical dashboard cards (People, Queue, Heatmap, Vehicle)\n  with trend charts, the queue dwell-alert config + highlight + chart markers,\n  and report download/reconcile; dashboard setup + Zone Manager cleanups.\n- **ftpingest** \u2014 stores the raw daily report artifact and fixes an all-zero\n  report false-failure.\n- ingest / dbwriter \u2014 no functional change (version-aligned).\n",
+  "released_at": "2026-06-26T21:22:40Z",
+  "schema_version": 1,
+  "version": "v0.9.0"
+}
