@@ -1,0 +1,90 @@
+{
+  "compatible_with": {
+    "before": null,
+    "from": "v0.1.0"
+  },
+  "images": [
+    {
+      "digest": "sha256:10a7ef04c4adf3a5ecedfa0583859e825c5987d7fdff94c20759ede85287c88a",
+      "image": "ghcr.io/bbradford1/aidatacollect-api",
+      "service": "api-backend",
+      "tag": "v0.10.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:b2dcceabced7b8accb4c51d90ba343d61397ddd047c83fffb59a5d7454c9cb1e",
+      "image": "ghcr.io/bbradford1/aidatacollect-portal",
+      "service": "portal",
+      "tag": "v0.10.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:6c337b9c19d46c56aea6d6d32cf33972db9d474de1445aba0c03e85ae3f78b18",
+      "image": "ghcr.io/bbradford1/aidatacollect-ingest",
+      "service": "ingest-worker",
+      "tag": "v0.10.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:7557c27c38bf406010e0372b8cd24adfbc27369834e9e42d6c3501848e54f1c8",
+      "image": "ghcr.io/bbradford1/aidatacollect-dbwriter",
+      "service": "db-writer",
+      "tag": "v0.10.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:0480808b519e105dd40daa56efaf6c28a658833452d8490432c16cba3978d8da",
+      "image": "ghcr.io/bbradford1/aidatacollect-ftpingest",
+      "service": "sftp-ingest",
+      "tag": "v0.10.0",
+      "tier": "aidatacollect"
+    },
+    {
+      "digest": "sha256:e62fbf9d3e2b49816a32c400ed2dba83e3b361e6833e624024309c35d334b412",
+      "image": "postgres",
+      "service": "postgres",
+      "tag": "16.4",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:2bb94239a3812cd3443695d29d196cff510660b3fbf1bc56bbd8747fa94c4bd8",
+      "image": "emqx/emqx",
+      "service": "emqx",
+      "tag": "5.8.3",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+      "image": "redis",
+      "service": "redis",
+      "tag": "7-alpine",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:26095be794616b5ce1cd08a24244dae7c1eda18073c482f58a8d1948237240b0",
+      "image": "drakkan/sftpgo",
+      "service": "sftp-server",
+      "tag": "v2.7.1",
+      "tier": "stateful"
+    },
+    {
+      "digest": "sha256:aa8a38b7b33e5fe70c679053f97a8e55c74d52b00c195f0880845e52b50ce516",
+      "image": "pgbouncer/pgbouncer",
+      "service": "pgbouncer",
+      "tag": "1.15.0",
+      "tier": "stateless"
+    },
+    {
+      "digest": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "image": "nginx",
+      "service": "nginx",
+      "tag": "1.27-alpine",
+      "tier": "stateless"
+    }
+  ],
+  "release_delivery_days": 7,
+  "release_notes_md": "## v0.10.0 \u2014 Real-time line, area & object-detection dashboards\n\nThis release brings the live analytics plane to the dashboard: see line\ncrossings, area activity, and object detections as they happen, with charts\nthat read in your own timezone and zone names you'll recognize.\n\n### New\n\n- **Line Crossing card** \u2014 live per-line crossing counts with direction\n  (in / out), today's total, and day/week trends, per camera and line.\n- **Area Activity card** \u2014 live area events (intrusion, loitering, enter/exit,\n  appear/disappear) broken down by type, with today/total and trends.\n- **Object Detection card** \u2014 real-time person / vehicle / face detections per\n  camera.\n- **Your zone names, everywhere** \u2014 the names you give lines and areas in Zone\n  Manager now appear on every dashboard card. On AI-capable cameras, line names\n  you set are written to the camera too, so they stay consistent end to end.\n\n### Fixed\n\n- **Timezone-correct charts** \u2014 all real-time cards now bucket activity in your\n  local timezone, so an evening event lands on the right day instead of sliding\n  onto the next.\n- **Classic line/area events are now captured** \u2014 some cameras report line and\n  area analytics on a combined event channel that the previous version didn't\n  ingest; those events now flow through to the dashboard.\n\n### Notes\n\n- Real-time cards appear automatically for any camera already sending the\n  matching events \u2014 no extra setup.\n- No database migration; upgrade in place.\n",
+  "released_at": "2026-06-27T12:00:23Z",
+  "schema_version": 1,
+  "version": "v0.10.0"
+}
